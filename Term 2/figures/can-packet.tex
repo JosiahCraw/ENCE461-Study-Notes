@@ -1,0 +1,69 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \node[boxes, minimum height=2cm, minimum width=\textwidth] at (7.5,0) (box) {};
+
+        % Fill the boxes first to stop overlaying text
+        \draw[fill=gray, fill opacity=0.08] (4,1) -- (5,1) -- (5,-1) -- (4,-1) -- (4,1);
+        \draw[fill=gray, fill opacity=0.08] (5,1) -- (6,1) -- (6,-1) -- (5,-1) -- (5,1);
+        \draw[fill=gray, fill opacity=0.08] (6,1) -- (7,1) -- (7,-1) -- (6,-1) -- (6,1);
+        \draw[fill=blue, fill opacity=0.08] (7,1) -- (11,1) -- (11,-1) -- (7,-1) -- (7,1);
+        \draw[fill=gray, fill opacity=0.08] (11,1) -- (12,1) -- (12,-1) -- (11,-1) -- (11,1);
+        \draw[fill=blue, fill opacity=0.08] (12,1) -- (13,1) -- (13,-1) -- (12,-1) -- (12,1);
+
+
+        \draw (1,1) -- (1,-1);
+        \draw (0.5,0) node[rotate=90] {\textbf{SOF}};
+
+        \draw (3,1) -- (3,-1);
+        \draw (2,0) node[] {11-bit ID};
+
+        \draw (4,1) -- (4,-1);
+        \draw (3.5,0) node[rotate=90] {\textbf{RTR}};
+
+        \draw (5,1) -- (5,-1);
+        \draw (4.5,0) node[rotate=90] {\textbf{IDE}};
+
+        \draw (6,1) -- (6,-1);
+        \draw (5.5,0) node[] {\textbf{r0}};
+
+        \draw (7,1) -- (7,-1);
+        \draw (6.5,0) node[rotate=90] {\textbf{DLC}};
+
+        \draw (11,1) -- (11,-1);
+        \draw (9,0) node[] {0-8 Data Bytes};
+
+        \draw (12,1) -- (12,-1);
+        \draw (11.5,0) node[rotate=90] {\textbf{CRC}};
+
+        \draw (13,1) -- (13,-1);
+        \draw (12.5,0) node[rotate=90] {\textbf{ACK}};
+
+        \draw (14,1) -- (14,-1);
+        \draw (13.5,0) node[rotate=90] {\textbf{EOF}};
+
+        \draw (14.5,0) node[rotate=90] {\textbf{IFS}};
+
+        % Draw Key
+        \draw (0,-1.5) node[right] {\textbf{SOF}: Start of frame}
+            ++(0,-0.5) node[right] {\textbf{ID}: Priority and type of the message. The lower the
+            binary value, the higher the priority}
+
+            ++(0,-0.5) node[right] {\textbf{RTR}: Remote transmission request bit is zero when
+            information is requested from another node}
+
+            ++(0,-0.5) node[right] {\textbf{IDE}: Identifier Extension Bit}
+            ++(0,-0.5) node[right] {\textbf{r0}: Reserved Bit}
+            ++(0,-0.5) node[right] {\textbf{DCL}: Four Bit Data Length}
+            ++(0,-0.5) node[right] {\textbf{Data}: Up to 8 bytes of data}
+            ++(0,-0.5) node[right] {\textbf{CRC}: Cyclic Redundancy Check}
+            ++(0,-0.5) node[right] {\textbf{ACK}: Acknowledge from every node that receives the
+            message correctly}
+
+            ++(0,-0.5) node[right] {\textbf{EOF}: End of File (7-bit)}
+            ++(0,-0.5) node[right] {\textbf{IFS}: Inter-frame space for intermission};
+    \end{tikzpicture}
+\end{center}
+\caption{CAN Packet Format}
+\label{fig:can-packet}
+\end{figure}

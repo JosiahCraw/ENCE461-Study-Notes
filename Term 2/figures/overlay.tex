@@ -1,0 +1,38 @@
+\begin{figure}[H]
+\begin{center}
+\begin{adjustbox} {width=\textwidth}
+    \begin{tikzpicture}
+        \node[boxes] (root) {Root};
+        \node[boxes, below of=root, xshift=-6cm, yshift=-1cm] (a) {A};
+        \node[boxes, below of=root, yshift=-1cm] (b) {B};
+        \node[boxes, below of=root, xshift=6cm, yshift=-1cm] (c) {C};
+        \node[boxes, below of=a, xshift=-2cm, yshift=-1cm] (d) {D};
+        \node[boxes, below of=a, xshift=2cm, yshift=-1cm] (e) {E};
+        \node[boxes, below of=b, yshift=-1cm] (f) {F};
+        \node[boxes, below of=c, yshift=-1cm] (g) {G};
+
+        \draw (root.north) node[above] {2kB};
+        \draw (a.west) node[left] {4kB};
+        \draw (b.west) node[left] {6kB};
+        \draw (c.west) node[left] {8kB};
+
+        \draw (d.west) node[left] {6kB};
+        \draw (e.west) node[left] {8kB};
+        \draw (f.west) node[left] {2kB};
+        \draw (g.west) node[left] {4kB};
+
+        \draw[arrow] (root.south) -- (a.north);
+        \draw[arrow] (root.south) -- (b.north);
+        \draw[arrow] (root.south) -- (c.north);
+        
+        \draw[arrow] (a.south) -- (d.north);
+        \draw[arrow] (a.south) -- (e.north);
+        \draw[arrow] (b.south) -- (f.north);
+        \draw[arrow] (c.south) -- (g.north);
+
+    \end{tikzpicture}
+\end{adjustbox}
+\end{center}
+\caption{Memory Overlay Tree example}
+\label{fig:overlay}
+\end{figure}

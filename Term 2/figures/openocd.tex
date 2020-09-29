@@ -1,0 +1,22 @@
+\begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}
+            % Draw Boxes
+            \node(gdb) [boxes] {GDB};
+            \node(ide) [boxes, right of=gdb, xshift=3cm] {IDE};
+            \node(oocd) [boxes, below of=gdb, fill=red!20, yshift=-1cm] {OpenOCD Server};
+            \node(terminal) [boxes, right of=oocd, xshift=3cm] {Terminal\\{\tiny via telnet}};
+            \node(jtag) [boxes, below of=oocd, yshift=-1cm] {JTAG or SWD Adapter};
+            \node(board) [boxes, below of=jtag, yshift=-1cm] {Board\\{\tiny (may have more than one device)}};
+
+            % Draw Arrows
+            \draw[darrow] (gdb) -- (ide) node[midway, above] {MI};
+            \draw[darrow] (gdb) -- (oocd) node[midway, right] {:3333};
+            \draw[darrow] (oocd) -- (terminal) node[midway, above] {:4444};
+            \draw[darrow] (oocd) -- (jtag) node[midway, right] {USB};
+            \draw[darrow] (jtag) -- (board) node[midway, right] {JTAG or SWD};
+        \end{tikzpicture}
+    \end{center}
+    \caption{OpenOCD Access structure}
+    \label{fiog:openocd}
+\end{figure}

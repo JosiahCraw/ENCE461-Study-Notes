@@ -1,0 +1,5 @@
+name: 'Report Build'
+description: 'Builds LaTeX reports'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

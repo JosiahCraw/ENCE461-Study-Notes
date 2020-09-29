@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage[a4paper, total={15cm, 23cm}]{geometry}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{ulem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{nameref}
+\usepackage{pgfplots}
+\usepackage[thinlines]{easytable}
+\usepackage{array}
+\usepackage{circuitikz}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+
+\tikzstyle{boxes} = [rectangle, minimum width=2cm, minimum height=1cm, text centered, text
+width=2cm, draw=black]
+\tikzstyle{wboxes} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text
+width=3cm, draw=black]
+\tikzstyle{wwboxes} = [rectangle, minimum width=4cm, minimum height=1cm, text centered, text
+width=4cm, draw=black]
+\tikzstyle{wdiamond} = [diamond, minimum width=3cm, minimum height=1cm, text centered, text
+width=3cm, draw=black]
+\tikzstyle{xwboxes} = [rectangle, minimum width=8cm, minimum height=1cm, text centered, text
+width=8cm, draw=black]
+\tikzstyle{square} = [rectangle, minimum width=2cm, minimum height=2cm, text centered, text
+width=2cm, draw=black]
+\tikzstyle{smboxes} = [rectangle, minimum width=2cm, minimum height=0.75cm, text centered, text
+width=2cm, draw=black, line width=1pt, inner sep=0pt, node distance=-1pt]
+\tikzstyle{xsmboxes} = [rectangle, minimum width=0.75cm, minimum height=0.75cm, text centered, text
+width=0.5cm, draw=black, line width=1pt, inner sep=0pt, node distance=-1pt]
+\tikzstyle{line} = [thick, -, >=stealth]
+\tikzstyle{arrow} = [thick, ->, >=stealth]
+\tikzstyle{dasharrow} = [dashed, ->, >=stealth]
+\tikzstyle{darrow} = [thick, <->, >=stealth]
+
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,snakes}
+\usepgfplotslibrary{fillbetween}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+
+\lstset{style=codestyle}
+
+\newcommand\todo[1]{\textcolor{red}{\textbf{#1}}}
+\newcommand\red[1]{\textcolor{red}{#1}}
+\newcommand\green[1]{\textcolor{green}{#1}}
+\title{ENCE461 2020 Term 2 Study Notes}
+
+\author{Jos Craw}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\input{Term 2/contents.tex}
+
+\end{document}

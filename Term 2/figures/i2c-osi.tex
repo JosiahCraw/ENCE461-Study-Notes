@@ -1,0 +1,36 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \node[xwboxes] (app) {Application};
+        \node[xwboxes, below of=app] (pres) {Presentation};
+        \node[xwboxes, below of=pres] (sess) {Session};
+        \node[xwboxes, below of=sess] (tran) {Transport};
+        \node[xwboxes, below of=tran] (net) {Network};
+        \node[xwboxes, below of=net, fill=blue!8] (data) {Data Link $\frac{\textrm{Logical Link
+        Control (LLC)}}{\textrm{Media Access Control (MAC)}}$};
+        \node[xwboxes, below of=data, fill=gray!8] (phy) {Physical};
+
+        % Label
+        \draw[darrow] (data.north west) ++(-0.5,0)  -- ++(0,-2) node[left, midway] {I$^2$C/TWI};
+
+        % Info
+        \draw[dashed] (data.north east) -- (6, 2) node[right]{\textbf{Object Layer}}
+            ++(0, -0.5) node[right] {Prioritiser message handling}
+            ++(0,-0.5) node[right] {acceptance filtering}
+            ++(0, -0.5) node[right] {\textbf{Transfer layer}}
+            ++(0,-0.5) node[right] {Fault confinement}
+            ++(0,-0.5) node[right] {Error detection}
+            ++(0,-0.5) node[right] {Acknowledgment}
+            ++(0,-0.5) node[right] {Message framing}
+            ++(0,-0.5) node[right] {Arbitration} -- (data.south east);
+
+        \draw[dashed] (phy.north east) -- (6,-3) node[right] {\textbf{Physical Layer}}
+           ++(0,-0.5) node[right] {Bit representation} 
+           ++(0,-0.5) node[right] {Transfer rate} 
+           ++(0,-0.5) node[right] {Signal level and timing} 
+           ++(0,-0.5) node[right] {Transmission medium} -- (phy.south east); 
+    \end{tikzpicture}
+\end{center}
+\caption{OSI Protocol stack for I$^2$C/TWI}
+\label{fig:i2c-osi}
+\end{figure}

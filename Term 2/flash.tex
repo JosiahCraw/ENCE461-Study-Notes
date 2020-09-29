@@ -1,0 +1,68 @@
+\subsection{Overview}
+
+\input{Term 2/figures/embedded-mem-table.tex}
+
+\subsection{NAND Flash}
+A NAND memory cell is a modifed transistor with tunneling based programming. The NAND has the
+following array structural elements:
+
+\begin{itemize}
+    \item String + Bitline are series connected cells
+    \item Wordline is across the cells
+    \item Block is the smallest unit to be erased
+\end{itemize}
+
+The structure of the NAND Flash is shown in Figure \ref{fig:nand}
+
+\input{Term 2/figures/nand.tex}
+To read data a address is placed on the word line and the data is read out from the bit line.
+
+\subsubsection{NOR Based Flash}
+The difference between NOR Flash and NAND Flash is in NOR flash every memory cell is directly
+connected to the bit line. This results in faster read speeds then NAND but slower write and erase
+as well as lower density. For these reasons NOR flash is used in MCU's and NAND is used in USB
+drives, SD cards and SATA SSDs. The structure of NOR flash is shown in Figure \ref{fig:nor}.
+
+\input{Term 2/figures/nor.tex}
+
+\subsection{Dynamic Memory Allocation}
+Dynamic memory allocation using commands like `\textit{malloc()}' and `\textit{free()}' allocate and
+deallocate memory from the heap. Dynamic memory presents issues with transparency as local
+variables defined by `\textit{malloc()}' are difficult to maintain. `\textit{malloc()}' can also
+make embedded software non deterministic under a Real time operating system (RTOS) as memory
+allocation time can be slow.
+
+\subsection{Heap Fragmentation}
+Heap fragmentation is when the through the process of allocation and freeing the heap gets split
+into parts by allocated blocks. These blocks prevent allocation as no contiguous blocks exist due to
+the segmented smaller allocated blocks.
+
+\subsection{Global Variables}
+Global variables are used to allow access between foreground and background tasks. However, this
+makes them \textit{volatile} as they may be changed unexpectedly therefore they cannot be stored in
+registers. These global variable must then be stored in RAM, usually SRAM throughout the code run,
+this enables faster access to the variable. There are risks with the use of global variables, such
+as race conditions some of these risks can be mitigated by using atomic operations (One clock cycle
+to complete/cannot be interrupted)
+
+\subsection{Memory Overlays}
+Memory overlays are the where different sections of code can be read into internal memory,
+overwriting another. This is used to accommodate limited SRAM. To use memory overlays the code/data
+must be structured in such a way that not all of the data is required in memory at the same time eg.
+code is segmentable or large datasets are not required all at once. Examples of data would be FFT,
+Digital filtering and image data. These are represented in C as a `union' an example of an overlay
+tree is shown in Figure \ref{fig:overlay}.
+
+\input{Term 2/figures/overlay.tex}
+
+\subsection{Erasing and Writing}
+For NAND Flash erasing has to occur by the page. Whereas NOR can erase individual bits. To perform
+an erase a large reverse polarity voltage is applied to the floating gate. NAND has to write 
+an entire page at a time. NOR's ability to erase/write individual bits increases its random 
+read/write speed making it more suitable for RAM (Random Access Memory).
+
+\subsection{Reading}
+To read the NAND Flash applies a voltage to the word line and the bit line the voltage is then read
+from the bit line to determine the bit state. NOR can read faster than NAND making it suitable for
+high speed applications however, it has a lower density then NAND so is not used for large scale
+storage such as USB drives.

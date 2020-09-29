@@ -1,0 +1,49 @@
+\begin{figure}[H]
+    \begin{center}
+        \begin{circuitikz}
+            % Simplex
+            \draw node[buffer] (sim0) at (0, 0) {};
+            \draw node[buffer] (sim1) at (4, 0) {};
+            \draw (sim0.out) -- (sim1.in) node[above, midway, yshift=1cm] {{\large Simplex} {\small (One direction)}};
+            \draw (sim0.in) -- ++(-1, 0);
+            \draw (sim1.out) -- ++(1, 0);
+
+            % Half Duplex
+            \draw node[buffer] (hdup0) at (-1, -3) {};
+            \draw node[buffer, rotate=180] (hdup1) at (-1, -4) {};
+
+            \draw node[buffer] (hdup2) at (5, -3) {};
+            \draw node[buffer, rotate=180] (hdup3) at (5, -4) {};
+
+            \draw node[spdt, rotate=180] (sw0) at (1, -3.5) {};
+            \draw node[spdt] (sw1) at (3, -3.5) {};
+
+            \draw (hdup0.in) -- ++(-1, 0);
+            \draw (hdup1.out) -- ++(-1, 0);
+            \draw (hdup2.out) -- ++(1, 0);
+            \draw (hdup3.in) -- ++(1, 0);
+
+            \draw (hdup0.out) -| (sw0.out 2);
+            \draw (hdup1.in) -| (sw0.out 1);
+            \draw (hdup2.in) |- (sw1.out 1);
+            \draw (hdup3.out) |- (sw1.out 2);
+
+            \draw (sw0.in) -- (sw1.in) node[above, midway, yshift=1.25cm] {{\large Half Duplex} {\small (Both directions one at a time)}};
+
+            % Full Duplex
+            \draw node[buffer] (dup0) at (0, -7) {};
+            \draw node[buffer] (dup1) at (4, -7) {};
+            \draw (dup0.out) -- (dup1.in) node[above, midway, yshift=1cm] {{\large Full Duplex} {\small (Both directions simultaneously)}};
+            \draw (dup0.in) -- ++(-1, 0);
+            \draw (dup1.out) -- ++(1, 0);
+
+            \draw node[buffer, rotate=180] (dup2) at (0, -8) {};
+            \draw node[buffer, rotate=180] (dup3) at (4, -8) {};
+            \draw (dup2.out) -- ++(-1, 0);
+            \draw (dup3.in) -- ++(1, 0);
+            \draw (dup2.in) -- (dup3.out);
+        \end{circuitikz}
+    \end{center}
+    \caption{Simplex vs Full Duplex vs Half Duplex}
+    \label{fig:sim-vs-duplex}
+\end{figure}

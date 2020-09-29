@@ -1,0 +1,58 @@
+\begin{figure}[H]
+\begin{center}
+\begin{adjustbox} {width=\textwidth}
+    \begin{tikzpicture}
+        \draw (2,0) node[boxes] (z0) {$z^{-1}$} (6,0) node[boxes] (z1) {$z^{-1}$} (10,0) node[boxes]
+        (z2) {$z^{-1}$};
+
+        \draw (0,-1.5) circle (0.5cm);
+        \draw[arrow] (-1.5,-1.5) node[left] {$h(0)$} -- (-0.5,-1.5);
+        \draw (0,-1.5) node[] {$\times$};
+
+        \draw (4,-1.5) circle (0.5cm);
+        \draw[arrow] (2.5,-1.5) node[left] {$h(1)$} -- (3.5,-1.5);
+        \draw (4,-1.5) node[] {$\times$};
+        \draw (4,-3.5) circle (0.5cm);
+        \draw (4,-3.5) node[] {$+$};
+
+        \draw (8,-1.5) circle (0.5cm);
+        \draw[arrow] (6.5,-1.5) node[left] {$h(2)$} -- (7.5,-1.5);
+        \draw (8,-1.5) node[] {$\times$};
+        \draw (8,-3.5) circle (0.5cm);
+        \draw (8,-3.5) node[] {$+$};
+
+        \draw (12,-1.5) circle (0.5cm);
+        \draw[arrow] (10.5,-1.5) node[left] {$h(3)$} -- (11.5,-1.5);
+        \draw (12,-1.5) node[] {$\times$};
+        \draw (12,-3.5) circle (0.5cm);
+        \draw (12,-3.5) node[] {$+$};
+
+        \draw[arrow] (-1.5,0) node[left] {$x(n)$} -- (z0.west); 
+        \draw[arrow] (-1.5,0) -| (0,-1);
+        \draw[arrow] (0,-2) |- (3.5,-3.5);
+
+        \draw[arrow] (z0.east) -- (z1.west);
+        \draw[arrow] (z0.east) -| (4,-1);
+        \draw[arrow] (4,-2) -- (4,-3);
+
+        \draw[arrow] (z1.east) -- (z2.west);
+        \draw[arrow] (z1.east) -| (8,-1);
+        \draw[arrow] (8,-2) -- (8,-3);
+
+        \draw[arrow] (z2.east) -| (12,-1);
+        \draw[arrow] (12,-2) -- (12,-3);
+        
+        \draw[arrow] (4.5,-3.5) -- (7.5,-3.5);
+        \draw[arrow] (8.5,-3.5) -- (11.5,-3.5);
+        \draw[arrow] (12.5,-3.5) -- (14,-3.5) node[right] {$y(n)$};
+        
+        \draw (0,-4) node[below] {Multiply};
+        \draw (4,-4) node[below] {Multiply \& Add};
+        \draw (8,-4) node[below] {Multiply \& Add};
+        \draw (12,-4) node[below] {Multiply \& Add};
+    \end{tikzpicture}
+\end{adjustbox}
+\end{center}
+\caption{FIR Filter DSP Operations}
+\label{fig:fir-dsp}
+\end{figure}

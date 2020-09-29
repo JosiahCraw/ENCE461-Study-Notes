@@ -1,0 +1,38 @@
+on: [push]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    name: Check Job
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Check
+        uses: ./ci/check # Uses an action in the root directory
+        id: check
+      # Use the output from the `hello` step
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: '*.html'
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build Job
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        uses: ./ci/build # Uses an action in the root directory
+        id: build
+      # Use the output from the `hello` step
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: document
+          path: '*.pdf'

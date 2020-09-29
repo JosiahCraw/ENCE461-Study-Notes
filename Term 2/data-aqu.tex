@@ -1,0 +1,51 @@
+Data acquisition can take many forms, nd measure a huge range of effects/properties eg. Voltage,
+current, light intensity etc. One of the most common data acquisition components is an ADC. There
+are several common ADC types including Flash, Sigma-Delta ($\sum-\Delta$), CODECs, Successive
+approximation and integrating ADCs.
+
+\subsection{Ideal v. Practical Sampling}
+Ideal sampling would have an input signal which would be sampled using convultion with a time domain
+driac comb (series of delta functions) offset by the sample interval $f(x)=\sum_{k=0}^N \delta(x-k)$.
+However, this is not realisable as a voltage impulse cannot be created without an $\infty$ current
+therefore the sampling waveform looks more similar to a low duty cycle pulse signal with a pulse
+width of $T_0$ and a sampling period of $T_s=1/2W$
+
+\subsection{Uniform Quantisation}
+An N-bit uniform quantisation has $2^N$ levels to match a continuos input analog voltage to a
+quantised digital output.
+
+\begin{itemize}
+    \item Quantisation Interval: $\Delta = (V_{\textrm{max}} - V_{\textrm{min}})/2^N$
+    \item Quantisation Error: $V_{err} \in [-\Delta / 2, \Delta / 2]$
+    \item Variance of Error: $\Delta ^2/12$ 
+    \item SNR: $10log_{10} (\frac{(V_{\textrm{max}}-V_{\textrm{min}})^2/8}{\Delta ^2/12}$)
+\end{itemize}
+
+\subsection{FLASH Quantisation}
+FLASH Quantisation uses a resistor ladder and comparators to determine the analog input voltage of a
+signal. This type of quantisation is the fastest however the accuracy is poor. The structure of a
+FLASH quantiser is shown in Figure \ref{fig:flash-quant}.
+
+\input{Term 2/figures/flash-quant.tex}
+
+\subsection{Sigma-Delta ADC ($\sum - \Delta$ ADC)}
+The sigma-delta ($\sum - \Delta$) ADC is uses summing and integration to determine the value of the
+analog input. This significantly decreases the effect of quantisation noise as it acts as high pass
+filter for the noise, skewing it into higher frequencies outside of the digital filter passband. A
+block diagram for the sigma delta ADC is shown in Figure \ref{fig:sig-delt}.
+
+\input{Term 2/figures/sig-delt.tex}
+
+\subsubsection{Importance of Oversampling}
+Sigma Delta ADC's must oversample to ensure accuracy of data collection eg. if not oversampling
+enough there cannot be a distinction between different rates of change. This occurs when the slopes
+are extremely steep causing the Sigma Delta to fall behind in its estimate if many of these high
+frequency changes occur the ADC can experience issues with increasing error.
+
+\subsubsection{Digital Filter}
+The Digital Decimation Filter performs digital low pass filtering on the output signal, this removes
+all of the high frequency quantisation noise and leaves just the output bit stream.
+
+\subsubsection{Noise Shaping}
+The integrator acts a high pass filter for the noise, therefore it pushes the noise into higher
+frequencies. This noise is then able to be removed in the digital filtering stage.

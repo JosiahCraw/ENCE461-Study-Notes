@@ -1,0 +1,86 @@
+Digital Signal Processing (DSP) does performs signal processing in the digital domain. This approach
+is simpler than analog signal processing. This sort of processing is well suited for speech and
+language processing, image processing etc.
+
+\subsection{System Design Considerations}
+\subsubsection{Hardware}
+When selecting hardware ensure that the DSP has the appropriate fixed/floating point data unit,
+adequate data width and processing speed for the desired application. Also the sampling rate may be
+either fixed or variable. The available interfaces are important, such as serial and parallel
+interface compatibility. Finally the memory types are an important consideration for hardware
+selection.
+
+\subsubsection{Software}
+When making software design decisions ensure the appropriate language/group of languages are used to
+best fit the desired use case. Also consider any operating systems and any debugging or testing
+toolchains that may be required.\\
+
+\noindent DSP's are best suited for low complexity/high sample rate data collection and processing.
+
+\input{Term 2/figures/mcu-v-dsp.tex}
+
+\subsection{Common DSP Features}
+DSP's usually have features such as, multiple bus architectures eg. Harvard, modified Harvard etc.,
+fast multiply and accumulate (MAC) and dot product processing. Typically DSP's also execute one
+instruction per cycle and have very fast clock rates. Also present are special address modes eg.
+circular addressing, specialised execution and control (no loop overhead, and a delayed branch
+instruction) and specialised peripherals \& I/O devices eg. communications between DSP and CODECs,
+multiple channel serial interfaces and DMA modules. Solutions such as DSP+ARM exist, with is a
+combination of ARM core/s for command and control and a DSP for real-time processing.
+
+\subsection{MAC}
+Multiply and accumulate (MAC) is a core DSP operation and hence must be very efficient examples of
+multiply and accumulate functions are:
+
+\begin{itemize}
+    \item Convolution
+    \item Correlation (Auto and Cross)
+    \item Fourier and Inverse Fourier transforms
+    \item $c_{i}=\sum_{k=0}^{N}a_{i} \dot b_{i}$
+    \item Digital/adaptive filtering
+    \item Neural Networks
+\end{itemize}
+
+DSP's typically have dedicated MAC modules to enable extreemly efficent MAC an example of this is
+shown in Figure \ref{fig:mac-unit}.
+
+\input{Term 2/figures/mac-unit.tex}
+
+\subsubsection{FIR Filtering}
+Finite Impulse Response filtering (FIR) is a digital filtering method, an execution of which can be
+found in Figure \ref{fig:fir-dsp}
+
+\input{Term 2/figures/fir-dsp.tex}
+
+This results in the following operations:
+
+\begin{center}
+\begin{tabular} {l l l}
+    Fir: & IN & PORTX\\
+    & MPY & *x-, *h+,AC0\\
+    & MAC & *x-, *h+,AC0\\
+    & MAC & *x-, *h+,AC0\\
+    & MAC & *x-, *h+,AC0\\
+    & MAC & *x-, *h+,AC0\\
+    & OUT & PORTY
+\end{tabular}
+\end{center}
+
+\subsection{Fixed Point Data}
+In a fixed point DSP data is represented by a binary fraction $\in (-1, 1)$ this method reduces the
+dynamic range for multiplication eg. $0.9\times 0.9 = 0.81$ to maintain the original bit width the
+output value is concatenated to $0.8$ to encode the numbers two compliment is used as it allows sign
+coding. When multiplying negative values `1's are appended to the front. The result is output in
+two's compliment.
+
+\noindent The binary mapping to decimal values are:
+\begin{equation}
+\begin{bmatrix}
+    -1 & \frac{1}{2} & \frac{1}{4} & \frac{1}{8}\\
+\end{bmatrix}
+\end{equation}
+
+\input{Term 2/figures/fixed-point.tex}
+
+\subsubsection{Programming} Programming a DSP can be much more efficient in ASM (Assembly) in terms of
+both memory and execution time when compared to C

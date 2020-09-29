@@ -1,0 +1,35 @@
+\begin{figure}[H]
+\begin{center}
+\begin{adjustbox} {height=0.9\textheight}
+    \begin{tikzpicture}
+        \draw (0,0) node[wwboxes] (0) {Set TWI clock (CKDIV) This is only needed once};
+        \draw (0,-4) node[wwboxes] (1) {Set the control register -Master Enable \textit{TWI\_CR = MSEN}};
+        \draw (0,-8) node[wwboxes] (2) {Set the master mode register -Device slave address (DAAR)
+        -Transfer direction bit Write ==> bit MREAD=0};
+        \draw (8,0) node[wwboxes] (3) {Load transmit register \textit{TWI\_THR} = Data to send};
+        \draw (8,-4) node[wwboxes] (4) {Read status register};
+        \draw (8,-8) node[wdiamond] (5) {\textit{TXRDY == 1} check};
+        \draw (8,-12) node[wwboxes] (6) {Read status register};
+        \draw (8,-16) node[wdiamond] (7) {\textit{TXCOMP == 1} check};
+        
+        % Draw Arrows
+        \draw[arrow] (0,2) node[above] {Begin} -- (0.north);
+        \draw[arrow] (0.south) -- (1.north);
+        \draw[arrow] (1.south) -- (2.north);
+        \draw (2.south) |- (4,-11);
+        \draw (4,-11) -- (4,2);
+        \draw[arrow] (4,2) -| (3.north);
+        \draw[arrow] (3.south) -- (4.north);
+        \draw[arrow] (4.south) -- (5.north);
+        \draw[arrow] (5.south) -- (6.north);
+        \draw[arrow] (6.south) -- (7.north);
+        \draw[arrow] (7.south) -- (8,-20) node[below] {Finish};
+
+        \draw[arrow] (5.east) -- (12,-8) |- (8,-2);
+        \draw[arrow] (7.east) -- (12,-16) |- (8,-10.75);
+    \end{tikzpicture}
+\end{adjustbox}
+\end{center}
+\caption{Master to slave transfer process and signaling on I$^2$C}
+\label{fig:i2c-master-slave}
+\end{figure}

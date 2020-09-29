@@ -1,0 +1,80 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+    \begin{axis}[
+        width=\textwidth,
+        axis x line=middle,
+        axis y line=left,
+        xmajorgrids=true,
+        ymajorgrids=true,
+        grid style=dashed,
+        xtick={0,10,...,120},
+        ytick={\empty},
+        extra y ticks={0,1,2,3,5},
+        extra y tick labels={$0V$, $2.5V$, $5V$, $0V$, $5V$},
+        xmin=-10,
+        xmax=125,
+        ymin=-0.5,
+        ymax=6,
+        samples=1000,
+        title=CAN Differential Signalling,
+        xticklabels=\empty,
+    ]
+
+    \addplot[black] coordinates
+    {(0,3) (0,5) (10,5) (10,3) (20,3) (20,5) (40,5) (40,3) (70,3) (70,5) (80,5) (80,3) (90,3) (90,5)
+    (100,5) (100,3) (110,3)};
+
+    \addplot[blue, name path=canh] coordinates
+    {(0,1) (10,1) (10,2) (20,2) (20,1) (40,1) (40,2) (70,2) (70,1) (80,1) (80,2) (90,2) (90,1)
+    (100,1) (100,2) (110,2)};
+
+    \addplot[red, name path=canl] coordinates
+    {(0,1) (10,1) (10,0) (20,0) (20,1) (40,1) (40,0) (70,0) (70,1) (80,1) (80,0) (90,0) (90,1)
+    (100,1) (100,0) (110,0)};
+
+    \path[name path=middle] (axis cs:0,1) -- (axis cs:110,1);
+    \addplot[
+        color=red,
+        fill=red,
+        fill opacity=0.1,
+    ] fill between[
+        of=middle and canl,
+        soft clip={domain=0:110},
+    ];
+    
+    \addplot[
+        color=blue,
+        fill=blue,
+        fill opacity=0.1,
+    ] fill between[
+        of=middle and canh,
+        soft clip={domain=0:110},
+    ];
+
+    % Draw Bits
+    \draw (axis cs:5,4) node[] {1}
+        (axis cs:15,4) node[] {0}
+        (axis cs:25,4) node[] {1}
+        (axis cs:35,4) node[] {1}
+        (axis cs:45,4) node[] {0}
+        (axis cs:55,4) node[] {0}
+        (axis cs:65,4) node[] {0}
+        (axis cs:75,4) node[] {1}
+        (axis cs:85,4) node[] {0}
+        (axis cs:95,4) node[] {1}
+        (axis cs:105,4) node[] {0};
+    
+
+    % Draw Labels
+    \draw (axis cs:55,1.5) node[] {CAN$_H$};
+    \draw (axis cs:55,0.5) node[] {CAN$_L$};
+    \draw (axis cs:55,2.75) node[] {NRZ Data from CAN Controller};
+    \draw (axis cs:55,2.25) node[] {CAN bus Differential Signal};
+    
+    \end{axis}
+    \end{tikzpicture}
+\end{center}
+\caption{CAN Differential Signalling}
+\label{fig:can-wave}
+\end{figure}

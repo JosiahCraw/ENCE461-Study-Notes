@@ -1,0 +1,82 @@
+\begin{figure}[H]
+\begin{adjustbox} {max width=1\textwidth, center}
+\centering   
+\begin{circuitikz}
+    \ctikzset{multipoles/thickness=3}
+    \ctikzset{multipoles/dipchip/width=2}
+
+    % U0
+    \draw (0, 0) node[dipchip, num pins=8, hide numbers, no topmark,
+        external pins width=0](U0) {U0};
+
+    \node [right, font=\tiny] at (U0.bpin 1) {TMS};
+    \node [right, font=\tiny] at (U0.bpin 2) {TCK};
+    \draw (U0.bpin 2) ++(0, 0.1) -- ++(0.1, -0.1);
+    \draw (U0.bpin 2) ++(0, -0.1) -- ++(0.1, 0.1);
+    \node [right, font=\tiny] at (U0.bpin 4) {TDI};
+
+    \node [left, font=\tiny] at (U0.bpin 5) {TDO};
+
+    % U1
+    \draw (5, 0) node[dipchip, num pins=8, hide numbers, no topmark,
+    external pins width=0](U1) {U1};
+
+    \node [right, font=\tiny] at (U1.bpin 1) {TMS};
+    \node [right, font=\tiny] at (U1.bpin 2) {TCK};
+    \draw (U1.bpin 2) ++(0, 0.1) -- ++(0.1, -0.1);
+    \draw (U1.bpin 2) ++(0, -0.1) -- ++(0.1, 0.1);
+    \node [right, font=\tiny] at (U1.bpin 4) {TDI};
+
+    \node [left, font=\tiny] at (U1.bpin 5) {TDO};
+
+    % U2
+    \draw (10, 0) node[dipchip, num pins=8, hide numbers, no topmark,
+    external pins width=0](U2) {U2};
+
+    \node [right, font=\tiny] at (U2.bpin 1) {TMS};
+    \node [right, font=\tiny] at (U2.bpin 2) {TCK};
+    \draw (U2.bpin 2) ++(0, 0.1) -- ++(0.1, -0.1);
+    \draw (U2.bpin 2) ++(0, -0.1) -- ++(0.1, 0.1);
+    \node [right, font=\tiny] at (U2.bpin 4) {TDI};
+
+    \node [left, font=\tiny] at (U2.bpin 5) {TDO};
+
+    % Drawing the connections
+    \node [left] at (-4, 3) {TMS};
+    \node [left] at (-4, 2) {TCK};
+    \node [left] at (-4, 52 |- U0.bpin 4) {TDI};
+    \node [left] at (-4, -2) {TDO};
+
+
+    \node[circ] at (-2, 3) {};
+    \node[circ] at (-2.5, 2) {};
+    \node[jump crossing] at (-2, 2) (cr0) {};
+    \draw (-4, 3) -- (-2, 3);
+    \draw (-4, 2) -- (-2.5, 2);
+    \draw (-2.5,  2) -- (cr0.west);
+    \draw (-2, 3) |- (U0.bpin 1);
+    \draw (-2.5, 2) |- (U0.bpin 2);
+    \draw (-4, 52 |- U0.bpin 4) -- (U0.bpin 4);
+    \draw (U0.bpin 5) -- (U1.bpin 4);
+
+    \node[circ] at (3, 3) {};
+    \node[circ] at (2.5, 2) {};
+    \node[jump crossing] at (3, 2) (cr1) {};
+    \draw (-2, 3) -- (3, 3);
+    \draw (cr0.east) -- (cr1.west);
+    \draw (3, 3) |- (U1.bpin 1);
+    \draw (2.5, 2) |- (U1.bpin 2);
+    \draw (U1.bpin 5) -- (U2.bpin 4);
+
+    \draw (3, 3) -- (8, 3);
+    \draw (cr1.east) -- (7.5, 2);
+    \draw (8, 3) |- (U2.bpin 1);
+    \draw (7.5, 2) |- (U2.bpin 2);
+    \draw (U2.bpin 5) -| (12, -2);
+    \draw (12, -2) -- (-4, -2);
+
+\end{circuitikz}
+\end{adjustbox}
+\caption{Daisy Chained JTAG Ports}
+\label{fig:jtag}
+\end{figure}

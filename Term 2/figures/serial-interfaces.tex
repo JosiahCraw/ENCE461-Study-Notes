@@ -1,0 +1,71 @@
+\begin{table}[H]
+\caption{Technical comparison of different serial interfaces}
+\label{table:serial-interface}
+    \begin{center}
+        \begin{tabular} { | m{4cm} | m{1cm} | m{1cm} | m{2.5cm} | m{1cm} | m{1cm} | m{1.5cm} | }
+        \hline
+        Interface & Sync. & Duplex & Wires & Mode & Topo. & Format\\
+        \hline
+        UART (RS232) & A & F & 2 + GND & SE & P & NRZ\\
+        UART (RS423) & A & F & 2 + GND & SE & M & NRZ\\
+        UART (RS422) & A & F & 4 + GND & D & M & NRZ\\
+        UART (RS485) & A & F & 4 + GND & D & B & NRZ\\
+        $\textrm{Synchronous}^{(1)}$ & S & F & 6 + GND & SE & P & NRZ\\
+        SPI & S & F & 3 + GND & SE & M & NRZ\\
+        JTAG & S & F & 4 + GND & SE & DC & NRZ\\
+        I$^2$C/TWI & S & H & 2 + GND & SE & B & NRZ\\
+        CAN & A & H & 2 + GND & D & B & NRZ-BS\\
+        LIN & A & H & 1 + GND & S & B & NRZ\\
+        Ethernet 100Base-T & S & F & $4$ & D & SH & MPE\\
+        USB & A & H & 2 + GND/PWR & D & SH & NRZI-BS\\
+        IEEE 1394 {\small (Firewire)} & S & F & 4 + GND/PWR & D & SH & DS\\
+        Serial ATA & S & F & 4 + 3 GND & D & P & NRZ\\
+        \hline
+        \multicolumn{7}{l}{A = Asynchronous}\\
+        \multicolumn{7}{l}{S = Synchronous}\\
+        \multicolumn{7}{l}{F = Full duplex}\\
+        \multicolumn{7}{l}{H = Half Duplex}\\
+        \multicolumn{7}{l}{PWR = Power}\\
+        \multicolumn{7}{l}{SE = Single ended {\small (Voltage signal with reference to ground)}}\\
+        \multicolumn{7}{l}{D = Differential {\small (Complementary Signals)}}\\
+        \multicolumn{7}{l}{P = Point to point}\\
+        \multicolumn{7}{l}{M = Multipoint}\\
+        \multicolumn{7}{l}{B = Bus}\\
+        \multicolumn{7}{l}{DC = Daisy chain}\\
+        \multicolumn{7}{l}{SH = Switch Hub}\\
+        \multicolumn{7}{l}{NRZ = Non-return to zero}\\
+        \multicolumn{7}{l}{NRZI = NRZ inverted}\\
+        \multicolumn{7}{l}{DS = Data strobe}\\
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\begin{table}[H]
+    \caption{Application comparison of serial interfaces}
+    \label{table:serial-app-comp}
+    \begin{center}
+        \begin{tabular} { | m{3cm} | m{2cm} | m{2cm} | m{2cm} | m{5cm} | }
+        \hline
+        Interface & Max \# Devices & Max Length (feet) & Max Speed (bps) & Application\\
+        \hline
+        USB (v1.0 \& v2.0) & 127 & 16 & 12M \& 480M & Human interface devices eg. mouse, keyboard\\
+        \hline
+        RS-232 & 2 & 50-100 & 20k & Modems/Terminals\\
+        \hline
+        RS-485 & 32 & 4000 & 10M & Data Acquisition, control systems\\
+        \hline
+        IrDA & 2 & 50-100 & 115k & Printers, hand-held computers\\
+        \hline
+        SPI & 8 & 10 & 2M [sic] $<$10M (device specific) & Microcontroller peripherals, EEPROM
+        memory\\
+        \hline
+        $\textrm{I}^2\textrm{C}$ & 40 & 18 & 3.4M & As above\\
+        \hline
+        IEEE-1394 {\small (Firewire v(a) \& v(b))} & 64 & 15 & 400M, 800M & Video, mass storage
+        systems\\
+        \hline
+        Ethernet & 1024 & 1600 & 10M / 100M / 1G / 2.5G / 5G / 10G / 100G & Networking\\
+        \hline
+        \end{tabular}
+    \end{center}
+\end{table}

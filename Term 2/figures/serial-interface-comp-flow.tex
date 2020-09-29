@@ -1,0 +1,49 @@
+\begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}
+            \node(top) [] {MCU Interfaces};
+            \node(digital) [below of=top, yshift=-1cm, xshift=-4cm] {Digital};
+            \node(analog) [below of=top, yshift=-1cm, xshift=4cm] {Analog};
+
+            % Digital
+            \node(on-off) [below of=digital, yshift=-1cm, xshift=-2cm] {On/Off};
+            \node(parallel) [below of=digital, yshift=-1cm] {Parallel};
+            \node(serial) [below of=digital, yshift=-1cm, xshift=2cm] {Serial};
+            \node(async) [below of=serial, yshift=-1cm, xshift=-2cm] {Async.};
+            \node(sync) [below of=serial, yshift=-1cm, xshift=2.5cm] {Sync.};
+            \node(1wire) [align=left, below of=async, yshift=-0.25cm, xshift=2cm] {1-Wire};
+            \node(rs232) [align=left, below of=1wire, yshift=-0.25cm] {RS232/RS485};
+            \node(ethernet) [align=left, below of=rs232, yshift=-0.25cm] {Ethernet};
+            \node(can) [align=left, below of=ethernet, yshift=-0.25cm] {CAN};
+            \node(2wire) [below of=sync, yshift=-0.25cm, xshift=2.5cm] {2-Wire
+            ($\textrm{I}^2\textrm{C}$)};
+            \node(4wire) [below of=2wire, yshift=-0.25cm] {4-wire (SPI, Microwire)};
+            \node(ssi) [below of=4wire, yshift=-0.25cm] {SSI};
+            \node(jtag) [below of=ssi, yshift=-0.25cm] {JTAG};
+
+            % Analog
+            \node(voltage) [below of=analog, yshift=-1cm, xshift=-2cm] {Voltage};
+            \node(current) [below of=analog, yshift=-1cm, xshift=2cm] {Current};
+
+            % Draw Lines
+            \draw (top) -- ++(0, -1) -| (digital) (top) ++(0, -1) -| (analog);
+            \draw (digital) -- (parallel) (digital) ++(0, -1) -| (on-off) (digital) ++(0,-1) -|
+            (serial);
+
+            \draw (analog) -- ++(0, -1) -| (voltage) (analog) ++(0,-1) -| (current);
+
+            \draw(serial) -- ++(0, -1) -| (async) (serial) ++(0, -1) -| (sync);
+            \draw(async) |- (1wire);
+            \draw(async) |- (rs232);
+            \draw(async) |- (ethernet);
+            \draw(async) |- (can);
+
+            \draw(sync) |- (2wire);
+            \draw(sync) |- (4wire);
+            \draw(sync) |- (ssi);
+            \draw(sync) |- (jtag);
+
+        \end{tikzpicture}
+    \end{center}
+    \caption{Tree Chart of different interface types}
+\end{figure}

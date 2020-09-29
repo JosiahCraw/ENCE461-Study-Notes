@@ -1,0 +1,19 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \node[wboxes, line width=2pt] (micro) {Microcontroller};
+        \node[wboxes, below of=micro, yshift=-1cm] (control) {CAN Controller};
+        \node[wboxes, below of=control, yshift=-1cm] (tran){CAN Transceiver};
+
+        \draw[line width=2pt] (-3,-5) node[left] {CAN Bus} -- (3,-5);
+        \draw[line width=2pt] (-3,-6) node[left] {CAN Bus} -- (3,-6);
+        \draw[darrow] (-1,-5) -- (-1,-4.5);
+        \draw[darrow] (1,-6) -- (1,-4.5);
+        \draw[darrow] (tran) -- (control);
+        \draw[darrow] (control) -- (micro);
+
+    \end{tikzpicture}
+\end{center}
+\caption{CAN Block Diagram}
+\label{fig:can=block}
+\end{figure}

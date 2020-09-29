@@ -1,0 +1,85 @@
+Control Area Network (CAN) is a noise resilient, asynchronous half-duplex serial protocol. The
+protocol uses a broadcast bus topology with no specific device/chip address. CAN also has message
+identifiers and message priority as well as type. Messages can also be processed by multiple nodes
+(\textit{functional addressing})\\
+
+\noindent The two wire structure supports 1Mbps for distances 40m, 120kbps possible over 500m and 
+5kbps over 10km. CAN-FD (\textit{flexible data rate}) increased the speed by a factor of 5.\\
+
+\noindent CAN uses multi-master/controller system with carrier sense multiple access with collision
+detection (CSMA/CD). CAN also uses arbitration on message priority (AMP), this is a non-destructive
+form of arbitration with is important for hard deadline, real-time and distributed systems. The
+priority order is the lower the number the higher the priority ie. 0 is the highest priority.\\
+
+\noindent CAN uses non-return to zero (NRZ) line coding this causes difficulty in clock
+synchronisation for long strings of `1' and `0'. This means that CAN requires falling or rising
+edges for every 5 bits, so after five bits of the same level, a 6\textsuperscript{th} inverse bit is
+added to the transmission. These bits are then removed at the receivers.
+
+\input{Term 2/figures/can.tex}
+
+\noindent The two wires used in CAN are a differential pair, this increases noise resilience which
+is important in the automotive sector where this protocol was designed. This bus also still works if
+the bus is broken of shorted to either power or ground. To represent a `1' bit the pair is
+\textit{recessive}, this is where $\textrm{CAN}_H \approx \textrm{CAN}_L \approx V_{cc}/2$ to
+represent a `0' bit the pair is \textit{dominant} this is where $\textrm{CAN}_H > \textrm{CAN}_L$
+this behaviour is shown in Figure \ref{fig:can-wave}.
+
+\input{Term 2/figures/can-wave.tex}
+
+The idle state of CSMA CAN is recessive (`1'). To avoid collisions CAN monitors bit transmissions.
+
+\subsection{CAN Message Format}
+The following figure describes the packet format of a CAN message.
+
+\input{Term 2/figures/can-packet.tex}
+
+\subsection{CRC}
+\paragraph{Parity Checks} Parity checks can be used to verify a transmission, using a \textbf{single
+bit} XOR gates are used to determine the value of the parity bit. Essentially a parity bit of `1'
+means that there is an odd number of `1' bits and `0' means that there is an even number of `1' bits.
+
+\noindent The method of a parity check is given by (\ref{eqn:parity}) where the bit sequence $x$ is
+`0010 0101'
+
+\begin{equation}
+\begin{aligned}
+    x &= 00100101\\
+    \textrm{CRC} &= x_7 \oplus x_6 \oplus x_5 \oplus x_4 \oplus x_3 \oplus x_2 \oplus x_1 \oplus
+    x_0\\
+    &=0 \oplus 0 \oplus 1 \oplus 0 \oplus 0 \oplus 1 \oplus 0 \oplus 1\\
+    \textrm{CRC} &= 1
+\end{aligned}
+\label{eqn:parity}
+\end{equation}
+
+\subsubsection{CRC}
+Cyclic Redundancy Check (CRC) is a $n$-bit checksum method which detects data inconsistency using
+polynomial division. This uses a \textit{Dividend} which is the input data, and \textit{Divisor}
+which is a given bit sequence also known as a \textit{generator polynomial} which is defined as
+(\ref{eqn:generator}). The predefined generator polynomial contains $n+1$ bits.
+
+\begin{equation}
+    G=\sum_{k=0}^{k=n+1} x^k
+    \label{eqn:generator}
+\end{equation}
+
+To preform a CRC:
+
+\begin{enumerate}
+\item Append the input with $n$ `0'
+\item Align the 1\textsuperscript{st} `1' of the divisor with the 1\textsuperscript{st} `1' of the
+dividend
+\item Stop when the divisor zeros out each bit of input data
+\item Return the last $n$ bits of the remainder
+\end{enumerate}
+
+A CRC-3 (3-bit CRC) check example is shown in (\ref{eqn:crc}) this shows the process of completing
+the first step, with each step repeating the same way.
+
+\input{Term 2/figures/crc-long-div.tex}
+
+\textbf{NOTE}: CAN uses CRC-15 so the generator polynomial is 16bit long and the remainder is 15bit
+long.
+
+

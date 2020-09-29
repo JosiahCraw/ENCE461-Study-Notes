@@ -1,0 +1,15 @@
+\begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}
+            \node(text) [boxes] {\textbf{text}};
+            \node(data) [boxes, below of=text] {\textbf{data}\\{\tiny Initialised Data}};
+            \node(bss) [boxes, below of=data] {\textbf{bss}\\{\tiny Uninitalised Data}};
+            \node(heap) [boxes, below of=bss, minimum height=3cm, yshift=-1cm] {\textbf{heap}};
+            \node(stack) [boxes, below of=heap, minimum height=3cm, yshift=-2cm] {\textbf{stack}};
+            \draw[dasharrow] (0, -4.25) -- (stack);
+            \draw[dasharrow] (0, -6.75) -- (heap);
+        \end{tikzpicture}
+    \end{center}
+    \caption{Memory Stack}
+    \label{fig:mem-stack}
+\end{figure}

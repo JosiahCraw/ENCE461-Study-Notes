@@ -1,0 +1,69 @@
+\begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}
+            \node(code) [wboxes] {Code};
+            \node(sram) [wboxes, below of=code, fill=blue!8] {SRAM};
+            \node(undefined) [wboxes, below of=sram, fill=gray!8] {Undefined};
+            \node(bitband) [wboxes, below of=undefined, fill=blue!8] {32MB bit band alias};
+            \node(periph) [wboxes, below of=bitband] {Peripherals};
+            \node(undef1) [wboxes, below of=periph] {Undefined}; 
+            \node(externalsram) [wboxes, below of=undef1] {External SRAM};
+            \node(reserved) [wboxes, below of=externalsram, fill=gray!20] {Reserved};
+            \node(system) [wboxes, below of=reserved] {System};
+
+            % Address stuff
+            \draw node[left] at (code.north west) {\tiny 0x00000000};
+            \draw node[left] at (sram.north west) {\tiny 0x20000000};
+            \draw node[left] at (undefined.north west) {\tiny 0x20400000};
+            \draw node[left] at (bitband.north west) {\tiny 0x22000000};
+            \draw node[left] at (undef1.north west) {\tiny 0x24000000};
+            \draw node[left] at (periph.north west) {\tiny 0x40000000};
+            \draw node[left] at (externalsram.north west) {\tiny 0x60000000};
+            \draw node[left] at (reserved.north west) {\tiny 0xA0000000};
+            \draw node[left] at (system.north west) {\tiny 0xE0000000};
+            \draw node[left] at (system.south west) {\tiny 0xFFFFFFFF};
+
+            \draw node[above] at (code.north) {\small Address Memory Space};
+            
+            % Draw Code sub memory
+            \node(bootmem) [boxes, left of=code, xshift=-5cm] {\small Boot Memory};
+            \node(intflash) [boxes, below of=bootmem] {\small Internal Flash};
+            \node(introm) [boxes, below of=intflash] {\small Internal ROM};
+            \node(reserv) [boxes, below of=introm, fill=gray!20] {\small Reserved};
+
+            % Draw Labels
+            \draw node[left] at (bootmem.north west) {\tiny 0x00000000};
+            \draw node[left] at (intflash.north west) {\tiny 0x00400000};
+            \draw node[left] at (introm.north west) {\tiny 0x00800000};
+            \draw node[left] at (reserv.north west) {\tiny 0x00C00000};
+            \draw node[left] at (reserv.south west) {\tiny 0x1FFFFFFF};
+
+            % Draw Lines
+            \draw[dashed] (code.north west) -- (bootmem.north east);
+            \draw[dashed] (code.south west) -- (reserv.south east);
+
+            % Draw external RAM sub memory
+            \node(smc0) [boxes, below of=reserv, yshift=-2cm] {\small SMC Chip Select 0};
+            \node(smc1) [boxes, below of=smc0] {\small SMC Chip Select 1};
+            \node(smc2) [boxes, below of=smc1] {\small SMC Chip Select 2};
+            \node(smc3) [boxes, below of=smc2] {\small SMC Chip Select 3};
+            \node(res) [boxes, below of=smc3, fill=gray!20] {\small Reserved};
+
+            % Draw Labels
+            \draw node[left] at (smc0.north west) {\tiny 0x60000000};
+            \draw node[left] at (smc1.north west) {\tiny 0x61000000};
+            \draw node[left] at (smc2.north west) {\tiny 0x62000000};
+            \draw node[left] at (smc3.north west) {\tiny 0x63000000};
+            \draw node[left] at (res.north west) {\tiny 0x64000000};
+            \draw node[left] at (res.south west) {\tiny 0x9FFFFFFF};
+
+            % Draw Lines
+            \draw[dashed] (externalsram.north west) -- (smc0.north east);
+            \draw[dashed] (externalsram.south west) -- (res.south east);
+
+            
+        \end{tikzpicture}
+    \end{center}
+    \caption{Memory Mappings}
+    \label{fig:mem-map}
+\end{figure}

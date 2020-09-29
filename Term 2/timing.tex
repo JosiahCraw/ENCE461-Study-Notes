@@ -1,0 +1,51 @@
+Delays are used frequently in MCU programming however it is difficult to ensure consistantcy and
+accuracy for long delays as interrupts can cause accuracy issues for timers making them unrelaible
+for both long time periods and in complicated programs. There will always be a trade off between
+time resolution and delay range.
+
+\subsection{Time Resolution and Delay Range}
+Delays can have any length, depending on the clock speed of the unit driving it. The
+\textit{Granularity} is the measure of a chosen smallest time unit of a delay and the \textit{Range}
+is a function the number of core bits/maximum count of a number in an MCU. This range effectively
+dictates the maximum time a delay can be, taking into account the granularity and the maximum count
+of an MCU.
+
+\input{Term 2/figures/time-reso.tex}
+
+To calculate delay length (\ref{eqn:delay}) is used where, $\tau_0$ is the setup delay, $\Delta_tau$
+is the timing resolution and $n$ is the number of ticks creating the delay length. The fundimental
+tradeoff between delay range and timing resolution under given bit width is shown in
+(\ref{eqn:fund-trade-off})
+
+\begin{equation}
+    \tau (n) = \tau_0 + n \Delta_\tau
+    \label{eqn:delay}
+\end{equation}
+
+\begin{equation}
+    \tau_{\textrm{max}}=\tau_0 + (2^{M}-1) \Delta_\tau
+    \label{eqn:fund-trade-off}
+\end{equation}
+
+\subsection{CPU Based Delay}
+CPU Based delay is where the CPU clock rates and architecture determine the granularity and delay
+range.
+
+\input{Term 2/figures/cpu-delay.tex}
+
+\subsection{Busy Wait/Delay Loops}
+Delay Loops are dependent on CPU clock frequency for time resolution as well as architecture for the
+delay range. These delay loops run as background tasks which means that the use of them is very
+resource intensive on the CPU. This also means that it more accurate for shorter periods.\\
+
+\noindent Busy wait is when a peripheral is `\textit{idle}' initially and waits to either receive data if it is
+an input device or receive instructions from the MCU if it is an output device. After data is
+received the peripheral starts in `\textit{busy}' state and after completion it moves to a
+`\textit{done}' state where it waits for the next instruction. 
+
+\subsection{Timeouts}
+Timeouts prevent an embedded system from entering a non-responsive state while waiting for a
+particular external event. This is achieved by allowing the system to exit the non-responsive state
+after a set amount of time waiting for an external trigger. Eg A temperature sensor reading every 1s
+in a case where the sensor is unresponsive and the MCU waits forever for it to respond. To fix this
+the MCU may exit the waiting state after a set period to stop issues with the sensor.

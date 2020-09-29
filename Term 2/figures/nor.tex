@@ -1,0 +1,26 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0) node[pmos, rotate=-90] (mos0) {};
+        \draw (2,0) node[pmos, rotate=-90] (mos1) {};
+        \draw (4,0) node[pmos, rotate=-90] (mos2) {};
+        \draw (6,0) node[pmos, rotate=-90] (mos3) {};
+
+        \draw (mos0.S) -- (mos1.D) node[ground, midway] {};
+        \draw (mos2.S) -- (mos3.D) node[ground, midway] {};
+        \draw (mos1.S) -- (mos2.D) node[midway] (helper0) {};
+    
+        \draw (mos0.G) node[above] {WL(0)};
+        \draw (mos1.G) node[above] {WL(1)};
+        \draw (mos2.G) node[above] {WL(2)};
+        \draw (mos3.G) node[above] {WL(3)};
+
+        \draw (-2,2) node[left] {Bit Line} -- (8,2);
+        \draw (mos0.D) -- (mos0.D |- -1,2);
+        \draw (mos3.S) -- (mos3.S |- -1,2);
+        \draw (3, |- mos0.D) -- (3,2);
+    \end{circuitikz}
+\end{center}
+\caption{NOR Flash Structure}
+\label{fig:nor}
+\end{figure}

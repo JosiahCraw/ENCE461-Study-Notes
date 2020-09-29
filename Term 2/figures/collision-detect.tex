@@ -1,0 +1,23 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{circuitikz}[american]
+        \node[xor port, rotate=-90] at (2, -2) (xor) {};
+        \node[pmos] at (5, -1.25) (fet){};
+
+        % Draw Lines
+        \draw (0,0) -| (fet.source);
+        \draw (0,0) -- (6,0) node[right] {SDA};
+        \draw (fet.drain) -- ++(0,-0.5) node[ground]{};
+
+        \draw (0,-0.5) -| (fet.gate);
+        \draw(0,-0.5) -| (xor.in 2);
+        \draw (0,0) -| (xor.in 1);
+        \draw (xor.out) |- (0,-3) node[left] {Collision};
+
+        \node[left] at (0,0) {RXD};
+        \node[left] at (0,-0.5) {TXD};
+    \end{circuitikz}
+\end{center}
+\caption{I$^2$C Collision Detection Circuitry}
+\label{fig:collision-detect}
+\end{figure}

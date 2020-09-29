@@ -1,0 +1,68 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{circuitikz}
+        \ctikzset{multipoles/thickness=3}
+        \ctikzset{multipoles/dipchip/width=2}
+        
+        \draw (0,0) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](txshift) {U0};
+        \node[right] at (txshift.bpin 2) {\tiny CLK};
+        \node[right] at (txshift.bpin 1) {\tiny Load};
+        \draw (txshift.bpin 2) ++(0,0.1) -- ++(0.1,-0.1);
+        \draw (txshift.bpin 2) ++(0,-0.1) -- ++(0.1,0.1);
+        \node[left] at (txshift.bpin 6) {\tiny Q};
+
+
+        \draw (5,0) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](rxshift) {U1};
+        \node[right] at (rxshift.bpin 1) {\tiny D};
+        \node[right] at (rxshift.bpin 2) {\tiny CLK};
+        \draw (rxshift.bpin 2) ++(0,0.1) -- ++(0.1,-0.1);
+        \draw (rxshift.bpin 2) ++(0,-0.1) -- ++(0.1,0.1);
+        \node[above] at (rxshift.s) {\tiny Rx Bus};
+       
+        \draw (5,-3) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](rxdata) {U2};
+        \node[right] at (rxdata.bpin 2) {\tiny CLK};
+        \draw (rxdata.bpin 2) ++(0,0.1) -- ++(0.1,-0.1);
+        \draw (rxdata.bpin 2) ++(0,-0.1) -- ++(0.1,0.1);
+        \node[below] at (rxdata.n) {\tiny Rx in};
+        
+        \draw (5,-6) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](rxframecounter) {U3};
+        \node[right] at (rxframecounter.bpin 2) {\tiny CLK};
+        \node[right] at (rxframecounter.bpin 1) {\tiny Clear};
+        \draw (rxframecounter.bpin 2) ++(0,0.1) -- ++(0.1,-0.1);
+        \draw (rxframecounter.bpin 2) ++(0,-0.1) -- ++(0.1,0.1);
+        \node[left] at (rxframecounter.bpin 6) {\tiny DR};
+
+        \draw (2, -3) node[buffer] (buf) {};
+
+        % Draw Wires
+        \draw (txshift.bpin 2) ++(-1,0) -- (txshift.bpin 2) ++(-0.5,0) node[circ]{} |- (buf.in)
+        (txshift.bpin 2 |- 52, -3) ++(-0.25,0) node[crossing] {};
+
+        \draw (txshift.bpin 1) -- ++(-1,0) (txshift.bpin 1) -- ++(-0.25, 0) node[circ]{} |- (rxframecounter.bpin 1); 
+
+        \draw (buf.out) node[circ]{} |- (rxshift.bpin 2) (buf.out) |- (rxframecounter.bpin 2);
+
+        \draw (txshift.bpin 1) ++(-1,0) node[left] {Tx Write};
+        \draw (txshift.bpin 2) ++(-1,0) node[left] {CLK};
+
+        \draw[line width=2pt] (txshift.n) -- ++(0,1) node[above] {Tx Data Bus};
+        \draw (txshift.bpin 6) -- (rxshift.bpin 1) node[above, midway] {\tiny Serial data};
+
+        \draw[line width=2pt] (rxshift.s) -- (rxdata.n);
+        \draw[line width=2pt] (rxdata.s) |- ++(1.875, -0.3) node[right] {Rx Data Bus};
+        \draw (rxframecounter.bpin 6) -- ++(1, 0) node[right]{Data Ready} ++(-0.3, 0) node[circ] {} |- (3, -4.5) |- (rxdata.bpin 2);
+
+        \draw (0, -8) node[right] {DR=Data Ready} 
+            ++(0, -0.5) node[right] {U0=Tx Shift Register}
+            ++(0, -0.5) node[right] {U1=Rx Shift Register}
+            ++(0, -0.5) node[right] {U2=Rx Data Register}
+            ++(0, -0.5) node[right] {U3=Rx Frame Counter};
+    \end{circuitikz}
+\end{center}
+\caption{Synchronous Serial Interface (SSI) Circuit}
+\label{fig:ssi-circuit}
+\end{figure}

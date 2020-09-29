@@ -1,0 +1,73 @@
+\begin{figure}[H]
+\begin{center}
+    \resizebox{\textwidth}{!}{
+    \begin{circuitikz}
+        \ctikzset{multipoles/thickness=3}
+        \ctikzset{multipoles/dipchip/width=2}
+
+        \draw (0,0) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](msr) {MSR};
+        \draw (msr.bpin 2) ++(0,0.1) -- ++(0.1,-0.1) -- ++(-0.1,-0.1);
+        \draw (msr.bpin 1) node[right] {\tiny D}
+            (msr.bpin 2) node[right] {\tiny CLK}
+            (msr.bpin 3) node[right] {\tiny LOAD}
+            (msr.bpin 6) node[left] {\tiny Q};
+        \draw[line width=3pt] (-3,1.5) node[left] {Tx Data Bus} -| (msr.n);
+        \draw[line width=3pt] (msr.s) |- (-3,-1.5) node[left] {Rx Data Bus};
+
+        \draw (0,-5) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](mfc) {MFC};
+        \draw (mfc.bpin 2) ++(0,0.1) -- ++(0.1,-0.1) -- ++(-0.1,-0.1);
+        \draw (mfc.bpin 1) node[right] {\tiny CNT} 
+            (mfc.bpin 2) node[right] {\tiny CLK}
+            (mfc.bpin 4) node[left] {\tiny RDY}
+            (mfc.bpin 5) node[left] {\tiny SCK};
+        
+        \draw (8,0) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](ssr) {SSR};
+        \draw (ssr.bpin 2) ++(0,0.1) -- ++(0.1,-0.1) -- ++(-0.1,-0.1);
+        \draw (ssr.bpin 1) node[right] {\tiny D}
+            (ssr.bpin 2) node[right] {\tiny CLK}
+            (ssr.bpin 6) node[left] {\tiny Q}
+            (ssr.bpin 4) node[left] {\tiny LOAD};
+        \draw[line width=2pt] (11, 1.5) node[right] {Tx Data Bus} -| (ssr.n);
+        \draw[line width=2pt] (ssr.s) |- (11,-1.5) node[right] {Rx Data Bus};
+
+        \draw (8,-5) node[dipchip, num pins=6, hide numbers, no topmark, external pins
+       width=0](sfc) {SFC};
+        \draw (sfc.bpin 2) ++(0,0.1) -- ++(0.1,-0.1) -- ++(-0.1,-0.1);
+        \draw (sfc.bpin 2) node[right] {\tiny CLK}
+            (sfc.bpin 6) node[left] {\tiny RDY};
+
+        % Lines
+        \draw (mfc) ++(5,0) node[buffer](buf){} (mfc.bpin 5) -- (buf.in) (buf.out) -- (sfc.bpin 2)
+        ++(-0.5,0) node[circ]{} |- (ssr.bpin 2);
+        \draw (mfc.bpin 5) ++(0.5,0) node[circ]{} |- (-2, -3.5) |- (msr.bpin 2);
+
+        \draw (-3, 52 |- msr.bpin 3) node[left] {Tx Write} -- (msr.bpin 3)
+            ++(-1, 0) node[circ]{} |- (mfc.bpin 1);
+
+        \draw (-3, 52 |- mfc.bpin 2) node[left] {Clock} -- (mfc.bpin 2);
+        \draw (mfc.bpin 4) -| (2,-6.5) -- (-3,-6.5) node[left] {Rx Ready};
+
+        \draw (msr.bpin 6) -- (ssr.bpin 1);
+        \draw (ssr.bpin 6) -| (10, 1.25) -- (-2, 1.25) |- (msr.bpin 1);
+        
+        \draw (ssr.bpin 4) -- (11, 52 |- ssr.bpin 4) node[right]{Tx Write};
+
+        \draw (sfc.bpin 6) -- (11, 52 |- sfc.bpin 6) node[right]{Rx Ready};
+
+        \draw (0,-6) node[right]{}
+            ++(0,-0,5) node[right] {SSR=Slave Shift Register}
+            ++(0,-0.5) node[right] {MSR=Master Shift Register}
+            ++(0,-0.5) node[right] {MFC=Master Frame Counter}
+            ++(0,-0.5) node[right] {SFC=Slave Frame Counter}
+            ++(0,-0.5) node[right] {MOSI=Master out Slave in}
+            ++(0,-0.5) node[right] {MISO=Master in Slave out}
+            ++(0,-0.5) node[right] {SCK=Serial Clock};
+    \end{circuitikz}
+}
+\end{center}
+\caption{Circuit Diagram for SPI}
+\label{fig:spi}
+\end{figure}

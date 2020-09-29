@@ -1,0 +1,23 @@
+\begin{table}[H]
+\caption{Embedded Memory Comparison Table}
+\label{table:mem-overview}
+\begin{center}
+\begin{adjustbox} {width=\textwidth}
+    \begin{tabular} { | m{2cm} | m{2cm} | m{3cm} | m{2cm} | m{2cm} | m{3cm} | m{3cm} | }
+        \hline
+        \textbf{Type} & \textbf{Volatile} & \textbf{Writeable} & \textbf{Erase Size} & \textbf{Max
+        Erase Cycles} & \textbf{Cost (per Byte)} & \textbf{Speed}\\
+        \hline
+        \textbf{SRAM} & Yes & Yes & Byte & Unlimited & Expensive & Fast\\
+        \textbf{DRAM} & Yes & Yes & Byte & Unlimited & Moderate & Moderate\\
+        \textbf{Masked ROM} & No & No & N/A & N/A & Inexpensive & Fast\\
+        \textbf{PROM} & No & Once, with programmer & N/A & N/A & Moderate & Fast\\
+        \textbf{EPROM} & No & Yes, with programmer & Entire Chip & Limited & Moderate to high & Moderate\\
+        \textbf{EEPROM} & No & Yes & Byte & Limited & Expensive & Fast Read, Slow Write \& Erase\\
+        \textbf{Flash} & No & Yes & Sector & Limited & Moderate & Fast Read, Slow Write \& Erase\\
+        \textbf{NVRAM} & No & Yes & Byte & Unlimited & Expensive (SRAM+Battery) & Fast\\
+        \hline
+    \end{tabular}
+\end{adjustbox}
+\end{center}
+\end{table}

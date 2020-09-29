@@ -1,0 +1,35 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0) node[op amp] (op0) {};
+        \draw (0,-4) node[op amp] (op1) {};
+        \draw (0,-8) node[op amp] (op2) {};
+        \draw (0,-12) node[op amp] (op3) {};
+
+        \draw (op0.-) -| (-2, 0.5) to[R=R] (-2,-3.5) node[circ]{} |- (op1.-);
+        \draw (-2, -3.5) to[R=R] (-2,-7.5) node[circ]{} |- (op2.-);
+        \draw (-2, -7.5) to[R=R] (-2,-11.5) node[circ]{} |- (op3.-);
+        \draw (-2, -11.5) to[R=R] (-2,-15.5) node[rground]{};
+        \draw (-2,4.5) to[R=R] (-2, 0.5);
+        \draw (-2,4.5) node[rground, rotate=180] {};
+
+        \draw (-3,-7) node[left] {Analog In} -- (-1.5,-7);
+        \draw (-1.5,-7) -| (op0.+);
+        \draw (-1.5,-7 -| op1.+) node[circ] {};
+        \draw (-1.5,-7) -| (op3.+);
+        \draw (op1.+) node[circ] {};
+        \draw (op2.+) node[circ] {};
+
+        \draw (4,-6) node[dipchip, num pins=8, hide numbers, no topmark,
+            external pins width=0](decoder) {};
+        \draw (4,-6) node[rotate=90] {Decoder};
+
+        \draw (decoder.bpin 1) -- ++(-0.5,0) |- (op0.out);
+        \draw (decoder.bpin 2) -- ++(-1,0) |- (op1.out);
+        \draw (decoder.bpin 3) -- ++(-1,0) |- (op2.out);
+        \draw (decoder.bpin 4) -- ++(-0.5,0) |- (op3.out);
+    \end{circuitikz}
+\end{center}
+\caption{4-bit FLASH Quantiser Structure}
+\label{fig:flash-quant}
+\end{figure}

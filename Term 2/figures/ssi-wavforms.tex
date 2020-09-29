@@ -1,0 +1,44 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.8\textwidth,
+            axis x line=middle,
+            axis y line=none,
+            xmajorgrids=true,
+            grid style=dashed,
+            xtick={0,10,...,120},
+            xmin=-60,
+            xmax=120,
+            samples=1200,
+            title=Synchronous Serial Interface,
+            xticklabels=\empty,
+        ]
+
+        \addplot[red] coordinates
+        {(-5,9) (-1,9) (1,11) (9,11) (11,9) (19,9) (21,11) (29,11) (31,9) (39,9) (41,11) (49,11)
+        (51,9) (59,9) (61,11) (69,11) (71,9) (79,9) (81,11) (89,11) (91,9) (99,9) (101,11) (109,11)
+        (111,9) (119,9)};
+
+        \node[left] at (axis cs:-6,10) {CLK};
+        \node[] at (axis cs:30,2) {MSB};
+        \node[] at (axis cs:90,2) {LSB};
+
+        \addplot[blue] coordinates
+        {(-5,5) (-1,5) (1,7) (19,7) (21,5) (119,5)};
+        
+        \node[left] at (axis cs:-6,6) {Frame Sync};
+
+        \addplot[black] coordinates
+        {(-5,2) (20,2) (21,3) (39,3) (41,1) (59,1) (61,3) (79,3) (81,1) (99,1) (100,2) (119,2)};
+        \addplot[black] coordinates
+        {(20,2) (21,1) (39,1) (41,3) (59,3) (61,1) (79,1) (81,3) (99,3) (100,2)};
+        
+        \node[left] at (axis cs:-6,2) {Tx/Rx};
+        \draw[darrow] (axis cs:20,1) -- (axis cs:100,1) node[midway,below] {4-16 bits};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\caption{Single SSI Trasmission}
+\label{fig:ssi-wave}
+\end{figure}

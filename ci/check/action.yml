@@ -1,0 +1,5 @@
+name: 'Report Check'
+description: 'Checks LaTeX reports'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

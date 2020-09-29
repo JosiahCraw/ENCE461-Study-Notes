@@ -1,0 +1,84 @@
+\subsection{Block Processing}
+Block processing is where the CPU processes the data blocks already stored in memory, together
+without streaming more data. This is usually done with the data in vector form, see Intel AVX
+instructions and ARM Neon intrinsics. An example of block processing could be a moving average
+filter (MAF). For the moving average filter once it has been applied to the input data the output
+must be stored in a separate memory section. This can pose issues in moving within memory and
+between memory and peripherals.
+
+\subsection{Unbuffered Data Transfer}
+Unbuffered transfer is when no buffer is implemented on the input of data, this can cause
+synchronization issues as both the sender and receiver need to be aware of the when the data is
+transferred. A diagram of this is shown in Figure \ref{fig:unbuffered}\\
+
+\noindent There are two methods for implementing unbuffered transfer, the first is to use
+\textit{Polling}. Polling can waste CPU cycles as the CPU will have to reguarly check if data is
+available. This can be somewhat mitigated through the use of the second method, \textit{Interrupts}
+this method ensures that data can be transferred once it is available however, there can be
+significant overhead created due to the context switch required to service the interrupt.
+
+\input{Term 2/figures/unbuffered.tex}
+
+\subsection{Buffered Data Transfer}
+By using a buffer a block of data can be transferred once the FIFO (First in First out) buffer is
+full. To indicate that the buffer is full an ISR (Interrupt Service Routine) can be used. This
+reduces the overhead as interrupts are occurring less frequently than with unbuffered however, there
+is a latency increase as data is held until the buffer is full. This method can also be used to
+transfer data without the CPU. Figure \ref{fig:buffered} shows the general format of a buffered data
+transfer.
+
+\input{Term 2/figures/buffered.tex}
+
+\subsection{Transfer Interfaces}
+There are several method to achieve high speed CPU independent data transfer between memory sections
+or between memory and peripherals these include:
+
+\begin{itemize}
+    \item Host port interface (This is a MCU to MCU interface/parallel address bus, this is rare now)
+    \item Buffered Serial Port (This is a peripheral to memory transfer)
+    \item Dual Port Memory (This has simultaneous read and write access)
+    \item Direct Memory Access (This is a programmable and cascadeable module)
+\end{itemize}
+
+\subsubsection{Dual-Port Memory}
+Dual port memory (shown in Figure \ref{fig:dual-port-mem}) allows for similtaneous read/write memory
+operations, to achieve this arbitration logic is required to control memory access confilicts. The
+applications for this are DSP active filters and shared memory systems.
+
+\input{Term 2/figures/dual-port-mem.tex}
+
+\subsubsection{Direct Memory Access}
+Direct Memory Access (DMA) is a data transfer system that requires very little CPU intervention and
+can handle I/O to memory and memory to memory transfers a typical configuration for this is shown in
+Figure \ref{fig:dma-config}.
+
+\input{Term 2/figures/dma-config.tex}
+
+\subsubsection{DMA Controller}
+The DMA controller is a bus mastering device which means it is able to perform read/write operations
+independent of the CPU. To perform a I/O to memory DMA the peripheral signals the DMA via an
+interrupt, the DMA controller then responds to the peripheral and reads the data. The DMA then uses
+the transfer count (TC) register to determine how the number of samples into an allocated memory
+section. The DMA then informs the CPU of the completed transfer via interrupt.\\
+
+\noindent The structure of the registers in the DMA are shown in Figure \ref{fig:dma-reg}
+
+\input{Term 2/figures/dma-reg.tex}
+
+\subsubsection{DMA Chaining}
+DMA's can be chained, this is were the descriptor points to a control block in memory. The control
+block is loaded automatically by DMA chaining to start a DMA session. DMA chaining uses a linked
+list structure. DMA chaining is shown in Figure \ref{fig:dma-chain}. As the values in the DMA
+registers are memory mapped the DMA descriptors can be chained together with pointers. DMA chaining
+can be use the achieve a ping pong buffer format, with the second DMA referring to the next buffer
+and switching automatically once the transfer count is complete.
+
+\input{Term 2/figures/dma-chain.tex}
+
+\subsubsection{Ping-Pong Buffer}
+The Ping Pong buffer, shown in Figure \ref{fig:ping-pong} is a simple buffering system that has two
+buffers on the input and output of the processor. This arrangement maximises the processing efficiency
+of the processor as data can always be made available and there is always a location to write output
+data to.
+
+\input{Term 2/figures/ping-pong.tex}

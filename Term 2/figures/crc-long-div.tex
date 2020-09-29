@@ -1,0 +1,32 @@
+\begin{equation}
+\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+
+\node[matrix of math nodes] (div) {
+    \empty & \empty & \empty & 1 & 1 & 1 & 1\\
+    1 & \node[fill=red!10]{1}; & \node[fill=blue!10]{0}; & \node[fill=red!10]{1}; &
+    \node[fill=blue!10]{0}; & 0 & 0\\
+    1 & \node[fill=red!10]{0}; & \node[fill=blue!10]{1}; & \node[fill=red!10]{1};\\
+    \empty & \node[fill=red!10]{\textbf{1}}; & \node[fill=blue!16]{\textbf{1}}; &
+    \node[fill=red!10]{\textbf{0}}; & \node[fill=blue!10]{\textbf{0}};\\
+    \empty & 1 & 0 & 1 & 1\\
+    \empty & \empty & 1 & 1 & 1 & 0\\
+    \empty & \empty & 1 & 0 & 1 & 1\\
+    \empty & \empty & \empty & 1 & 0 & 1 & 1\\
+    \empty & \empty & \empty & 1 & 0 & 1 & 1\\
+    \empty & \empty & \empty & \empty & 0 & 0 & 1\\
+};
+
+\draw (div-3-1.south west) -- (div-2-7.south east |- div-3-1.south); 
+\draw (div-5-2.south west) -- (div-2-7.south east |- div-5-2.south); 
+\draw (div-7-3.south west) -- (div-2-7.south east |- div-7-3.south); 
+\draw (div-9-4.south west) -- (div-2-7.south east |- div-9-4.south); 
+
+\draw (div-2-7.east) node[right] {$\gets$ Input (Padded with $N$ (3) Zeros)};
+\draw (div-10-7.east) node[right] {$\gets$ Remainder};
+
+\draw (div-2-1) node[left, xshift=-0.2cm] {Generator Polynomial $\to$\textbf{1011}};
+\draw (div-2-1.north west) -- (div-2-7.north east);
+\draw (div-2-1.south west) -- (div-2-1.north west);
+\end{tikzpicture}
+\label{eqn:crc}
+\end{equation}

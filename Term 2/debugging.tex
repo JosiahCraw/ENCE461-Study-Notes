@@ -1,0 +1,65 @@
+\begin{itemize}
+    \item \textbf{Debugging} Debugging allows the programmer to verify the correctness of a program. The debugger runs the program
+    and is able to detect the current state of the program including variable values and register states.
+
+    \item \textbf{Profiling} Profiling collects a time record of the program execution 
+\end{itemize}
+
+\textbf{Debugger Types:}
+\begin{itemize}
+    \item \nameref{section:JTAG}
+    \item \nameref{section:SWD}
+    \item \nameref{section:OpenOCD}
+    \item \nameref{section:GDB}
+\end{itemize}
+
+\subsection{JTAG}
+\label{section:JTAG}
+Joint Test Action Group (JTAG) is a specialized serial bus developed in the 1980s it is defined in the standard IEEE 1491 in 1990.
+The main use of this bus is to program and debug microprocessors and other programmable logic devices. This standard provides a test access
+port and boundary scan architecture for integrated circuits. \textbf{Boundary Scan Architecture} allows values on pins to be read from and written
+to without the use of external tools such as oscilloscopes and signal generators.
+
+\input{Term 2/figures/jtag-diagram.tex}
+
+JTAG contains the following possible signals:
+\begin{enumerate}
+    \item \textbf{TCK} - Test Clock for clocking test data entering on TDI and TDO
+    \item \textbf{TMS} - Test mode state: frame sync and JTAG mode switch
+    \item \textbf{TDI} - Test data in
+    \item \textbf{TDO} - Test data out
+    \item \textbf{TRST} - Test reset (\textit{optional}, 4+1 interface) to reset the test
+\end{enumerate}
+
+\subsection{SWD}
+\label{section:SWD}
+Single Wire Debug (SWD) is a debug port for pin limited packages, it is a 2+1 pin arrangement vs JTAG 4+1 arrangement. The first pin is used for
+clock (\textbf{SWCLK}) with is equivalent to TCK and TMS on JTAG. The other pin (\textbf{SWDIO}) is equivalent to TDI and TDO on JTAG and handles
+data transmission. SWD is the ARM standard bi-directional wire protocal and is defined in the ARM Debug interface v5 and can transmit data to and from the
+debugger and target board without target-resident code, it is also compatible with all ARM processors. Standard modules provide all normal JTAG debug and test 
+functionality as well as power. This system uses synchronous bi-directional transmission, simmilar to $\textrm{I}^2\textrm{C}$.
+
+\subsection{OpenOCD}
+\label{section:OpenOCD}
+OpenOCD runs a server with is accessible through a terminal on port 4444 and accessible to GDB through port 3333.
+
+\input{Term 2/figures/openocd.tex}
+
+\subsection{GDB}
+\label{section:GDB}
+GDB is a command line debugger in Unix and Linux and is supported under OpenOCD. There is not always a GUI available for the software.\\
+
+The following commands run GDB:
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\begin{center}
+\begin{lstlisting}[language=bash]
+gdb $EXE_NAME
+gdb -e $EXE_NAME -c $CORE_FILE_NAME
+gdb $EXE_NAME --pid=$PROCESS_ID
+\end{lstlisting}
+\end{center}
+\caption{Unix commands to invoke the GDB Debugger}
+\label{fig:unix-commands}
+\end{figure}

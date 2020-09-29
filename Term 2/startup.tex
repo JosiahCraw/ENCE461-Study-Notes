@@ -1,0 +1,218 @@
+\subsection{Memory Sections}
+A program for an embedded system generally consists of more than one source file.
+After compilation these files are organised into different memory sections:
+
+\begin{itemize}
+    \item \textbf{.text} - Code and instructions
+    \item \textbf{.rodata} - Constraints {\small (eg. pi cosine/sine tables, FIR filter coefficients etc.)}
+    \item \textbf{.data} - Initialised Data {\small (Global, static and local variables with initial values)}
+    \item \textbf{.bss} - Uninitialised Data {\small {Global, static and local variables that are uninitialised or initialised to 0}}
+\end{itemize}
+
+The \textbf{.text}, \textbf{.rodata} and \textbf{.data} segments all are held within flash memory as they casn be fetched when required and
+do not need to be held in SRAM.\\
+
+The \textbf{.data} and \textbf{.bss} are held within SRAM as they may change with ht program therefore SRAM is the most suitable.\\
+
+\textbf{NOTE:} The \textbf{.data} segment can be held within both, this is because initialised variables may be changed throughout
+the course of a program run and therefore maybe moved to SRAM.\\
+
+As shown in Figure \ref{fig:mem-stack} the heap and the stack typically grow toward each other.
+
+\input{Term 2/figures/mem-stack.tex}
+
+\textbf{Heap}, the heap contains dynamic memory allocations, this area is what is provided when
+malloc(), calloc(), realloc() and free() are called in C. The heap starts at the bottom of the bss section 
+and grows down toward the stack.\\
+
+\textbf{Stack}, the stack has a Last in First out (LIFO) structure and starts at the end of SRAM and grows
+toward smaller address numbers.
+
+\subsection{Linking}
+Linking is the mapping of certain sections of physical memory to virtual memory space.
+
+\begin{itemize}
+    \item Code and Constraints (.text and .rodata) $\to$ FLASH {\tiny (Read Only)}
+    \item Uninitialised variables (.bss) $\to$ SRAM {\tiny (Read Write)}
+    \item Initialised variables (.data) $\to$ FLASH and SRAM {\tiny (copy data before runtime for both read and write)}
+    \item Interrupt vector table $\to$ start of FLASH
+\end{itemize}
+
+\subsubsection{Memory Map}
+
+\input{Term 2/figures/mem-map.tex}
+
+From Figure \ref{fig:mem-map}:
+
+\begin{itemize}
+    \item The system always boots at 0x00000000
+    \item Internal ROM from 0x080000000 contains:
+        \begin{itemize}
+            \item SAM boot assistant
+            \item In-application programming (IAP) routines
+            \item Fast FLASH programming interface (FFPI)
+            \item Easy way for programming \todo{in-situ} the on chip FLASH memory via serial communication UART/USB SAM-BA GUI provided
+        \end{itemize}
+    \item Internal Flash, first address contains the interrupt register
+    \item Boot using SAM-BAon the ROM (\textit{default})
+        \begin{itemize}
+            \item General Purpose NVM (GPNVM) bit=0
+        \end{itemize}
+    \item Boot using SAM-BA on FLASH
+        \begin{itemize}
+            \item General-purpose NVM (GPNVM) bit=1
+        \end{itemize}
+    \item Enhanced embedded FLASH controller (EEFC) user interface: set GPNVM bit
+\end{itemize}
+
+\subsection{Linker Script}
+\begin{itemize}
+    \item MEMORY Figure \ref{fig:linker-mem}
+    \item SECTIONS Figure \ref{fig:linker-sections}
+    \item .text Figure \ref{fig:linker-text}
+    \item .data Figure \ref{fig:linker-data}
+\end{itemize}
+Firstly, this linker script specifies the memory space according to the previously defined memory map.
+
+\begin{figure}[H]
+    \begin{center}
+    \begin{lstlisting}[language=C]
+    MEMORY
+    {
+        FLASH (rx) : ORIGIN = 0x00400000, LENGTH = 1M
+        SRAM (rwx) : ORIGIN = 0x20000000, LENGTH = 128K
+    }
+    \end{lstlisting}
+    \end{center}
+    \caption{Linker Script memory declaration}
+    \label{fig:linker-mem}
+\end{figure}
+
+Where, FLASH is readable and executable `(rx)' and SRAM is readable, writable and executable `(rwx)'\\
+
+Next, physical memory addresses are specified for sections as shown in Figure \ref{fig:linker-sections}
+
+\begin{figure}[H]
+    \begin{center}
+    \begin{lstlisting}[language=C]
+    SECTIONS
+    {
+        . = 0x0000000; // `.' is the location counter
+        /* ... */
+    }
+    \end{lstlisting}
+    \end{center}
+    \caption{Linker Script Section declaration}
+    \label{fig:linker-sections}
+\end{figure}
+
+All of the \textbf{.text} sections from all of the object files are combined into a single \textbf{.text} section with
+the following script.
+
+\begin{figure}[H]
+    \begin{center}
+    \begin{lstlisting}[language=C]
+    .text :
+    {
+        /* .text section starts with an address with the last two bits = `00' */
+        . = ALIGN(4); 
+        /* Concatenate all .text sections */
+        *(.text)
+    } >FLASH // Put the .text section in FLASH
+    \end{lstlisting}
+    \end{center}
+    \caption{Linker Script Section declaration}
+    \label{fig:linker-text}
+\end{figure}
+
+The \textbf{.data} sections are loaded into FLASH and SRAM at startup
+
+\begin{figure}[H]
+    \begin{center}
+    \begin{lstlisting}[language=C]
+    .data : AT (__text_end__)
+    {
+        __data_start__ = .;
+        *(.data)
+        __data_end__ = .;
+        __data_load__ = LOADADDR (.data); // Returns load memory address of .data section
+    } >SRAM // Put the .data section in SRAM
+
+    /*
+        AT is the starting load memory address of the .data section in FLASH
+        __data_start__, __data_end__ and _  __data_load__ are SRAM addresses
+    */
+    \end{lstlisting}
+    \end{center}
+    \caption{Linker Script Section declaration}
+    \label{fig:linker-data}
+\end{figure}
+
+\subsection{Boot from RESET}
+The SAM4S clock initally runs off of the internal 4MHz RC oscillator\\
+On RESET the the SAM4S loads the program counter (PC) with the address of the RESET interrupt service routine (ISR)\\
+
+The following code Figure \ref{fig:boot-reset} describes the reset handler:
+\begin{figure}[H]
+    \begin{center}
+    \begin{lstlisting}[language=C]
+    void _reset_handler(void) {
+        /* Init the preinitialised variables in .data */
+        for (char *src = & __data_load__, char *dst = &__data_start__; dst < &__data_end__) {
+            *dst++ = *src++;
+        }
+
+        /* Zero all remaining uninitialised global variables in .bss */
+        for (dst = &__bss_start__; dst < &__bss_end__; ) {
+           *dst++ = 0;
+        }
+
+        /* 
+        Remap the exception table into SRAM to allow dynamic 
+        allocation. This register is zero on reset 
+        */
+        SCB->VTOR = (uint32_t)&exception_table & SCB_VTOR_TBLOFF_Msk;
+
+        /* Set up clockes, etc. */
+        mcu_init();
+
+        main();
+
+        /* Hang on program termination */
+        while (1) { continue; }
+    }
+    \end{lstlisting}
+    \end{center}
+    \caption{Reset Handler code snippet}
+    \label{fig:boot-reset}
+\end{figure}
+
+
+\begin{figure}[H]
+    \begin{center}
+    \begin{lstlisting}[language=C]
+    void mcu_init(void) {
+        /* Disable all interrupts */
+        for (int i = 0; i < 8; i++) {
+            /* 
+            ICER0 - ICER7: 32 bit vector indicating the 
+            enabled/disabled interrupts 
+            */
+            NVIC->ICER[i] = ~0;
+        }
+
+        mcu_reset_enable();
+
+        /* Reduce the number of wait states for the flash memory */
+        mcu_flash_init();
+
+        mcu_watchdog_disable();
+        mcu_clock_init();
+        irq_global_enable();
+    }
+    \end{lstlisting}
+    \end{center}
+    \caption{MCU initialisation code snippet}
+    \label{fig:boot-mcu-init}
+\end{figure}
+

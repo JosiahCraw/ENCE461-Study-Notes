@@ -1,0 +1,141 @@
+\subsection{Serial interfaces vs parallel interfaces}
+\begin{itemize}
+    \item Serial interfaces
+        \begin{itemize}
+            \item Encode bits by their temporal locations in the transmission medium
+            \item Suitable for pin-limited devices
+        \end{itemize}
+    \item Parallel interfaces
+    \begin{itemize}
+        \item Encoded use spacial locality
+    \end{itemize}
+    \item Issues
+    \begin{itemize}
+        \item How does the device know when to start looking for information?
+        \item What is the bit order?
+        \item How does the receiver know when the transmission is complete?
+    \end{itemize}
+\end{itemize}
+
+\subsection{Simplex, Full-Duplex and Half-Duplex}
+\input{Term 2/figures/simplex-duplex.tex}
+
+\subsection{Asynchronous vs Synchronous}
+
+\noindent \textbf{NOTE}: This is NOT required for analogue communications.
+
+\begin{itemize}
+    \item Asynchronous
+    \begin{itemize}
+        \item No clock signal transmitted
+        \item Each end has a clock with the same \textit{nominal} frequency
+        \item Clock and frame synchronization is required
+    \end{itemize}
+    \item Synchronous
+    \begin{itemize}
+        \item Clock is sent over a separate wire
+        \item Clock signal is encoded within data (eg. Manchester Code)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Manchester Code}
+With non-return to zero (NRZ) coding, clock synchronization would be difficult during long sequences
+of either `1' of `0'. Manchester Code negates this by using the voltage transition to represent `1'
+and `0'.
+\input{Term 2/figures/manchester-code.tex}
+
+\subsection{Serial Interface Comparison}
+\input{Term 2/figures/serial-interfaces.tex}
+
+\input{Term 2/figures/serial-interface-comp-flow.tex}
+
+\subsection{RS-232 vs RS-485}
+\input{Term 2/figures/rs232vsrs485.tex}
+
+\subsection{SSI}
+Synchronous Serial Interface (SSI) operates with a master slave model and is based off RS-422, is
+point to point and used frame syncronization.
+
+\input{Term 2/figures/ssi.tex}
+
+A single SSI transmission is shown in Figure \ref{fig:ssi-wave}, to send multiple transmissions a
+frame sync signal is sent on the LSB and the next transmission is sent.
+\input{Term 2/figures/ssi-wavforms.tex}
+
+\subsection{SPI}
+Serial Peripheral Interface (SPI), uses a master-slave model, is single ended, duplex, multipoint
+and uses selection line based framing.
+
+\input{Term 2/figures/spi.tex}
+SPI can be considered a simplified version of SSI, without frame synchronisation. The waveform for
+the SPI protocol is shown in Figure \ref{fig:spi-wave}
+
+\subsection{UART}
+Universal Asynchronous Receive Transmit (UART) is a simple full duplex asynchronous serial
+interface. UART has not framing beyond a single byte and required matched settings at both the
+receiver and transmitter to avoid incorrect communications. UART has relatively high overheads and
+can operate at most at 80\% efficiency. UART is also a free form protocol so can be adapted in
+software to suit the application.
+
+\input{Term 2/figures/spi-wave.tex}
+
+\subsection{I$^2$C/TWI}
+Inter-integrated circuit (I$^2$C) or Two wire interface (TWI) is a simple, robust a d easy to use
+communication system for use between a microcontroller and several external peripherals (bus type
+protocol). I$^2$C is availible in standard speed at 100kbps, full-speed at 400kbps and high-speed
+at 3.33Mbps. The bus supports up to 127 devices in parallel. The protocol is half duplex and
+synchronous (\textit{More complicated than SPI with slave select}). This protocol is robust as every
+byte has an ACK response to verify the receipt of the message, there is also built in arbitration to
+eliminate bus conflicts using Carrier sense multiple access/collision detection.\\
+
+\noindent The protocol uses 8-bit words and master slave handshaking where the master generates the clock
+signal and initiates the communication. Within the transmission there is an address byte for device
+selection, a read write bit for declaring reading and writing operations.\\
+
+\subsubsection{Clock Stretching}
+Clock stretching is when a slow slave device pulls the clock line low until it is ready to transmit
+data, this allows the slower device to send at a usable rate for its application.
+
+\input{Term 2/figures/i2c-osi.tex}
+
+The process of a master to slave transmission is shown in Figure \ref{fig:i2c-master-slave}.
+
+\input{Term 2/figures/i2c-master-slave.tex}
+
+\subsubsection{I$^2$C Write}
+To write to a slave the send the start condition and starts the clock then send the 7-bit slave
+address with the MSB first. The master then send the `0' write bit the slave then responds with an
+ACK (`0'). The master then sends data (This can be several bytes). The slave then sends an ACK (`0')
+and finally the master sends the stop condition.
+
+\subsubsection{I$^2$C Read}
+To read from a slave the master sends the start condition then starts the clock. The 7-bit slave
+address is then transmitted with MSB first. To indicate a read the master then sends a `1' read bit.
+The selected slave then responds with a ACK (`0'). The slave then sends the appropriate bit stream
+(This can be several bytes). The master finally responds with a NACK then the stop condition.\\ 
+
+\noindent To complete a full read from an external sensor the master must frist perform a write
+operation to the slave then perform a read.
+
+\subsubsection{Packet Structure}
+The packet structure of I$^2$C is shown in Figure \ref{fig:serial-packet}, This is for writing, to
+preform a read operation the R/W bit is set to `1' to indicate a read and in the data byte a NACK is
+used instead of the ACK (\textit{ACK=1, NACK=0}). 
+\input{Term 2/figures/serial-packet.tex}
+
+\subsubsection{Multi-master Operation}
+Multi-master operation is supported on I$^2$C however, in this mode arbitration is required as
+several masters may attempt to control the bus simultaneously. For this to work every master in a
+multi-master must be configured to a multi-master setup as single masters don't arbitrate, causing
+interference if a single master is connected. The master device controls SDA and SCK.
+
+Arbitration simply allows the faster (or slower) device to access the channel. To detect if the
+channel is in use the SDA and SCL lines are checked to see if they are LOW.
+
+\subsubsection{Collision Detection}
+A collision is where more than one device is transmitting on the SDA line at once. To perform
+collision detection a device has to be able to read the SDA line while checking the SDA for
+transmitted bits. And if the two don't match then a collision has occurred. This is determined using
+the XOR of the requested bit and the line data, shown in Figure \ref{fig:collision-detect}.
+
+\input{Term 2/figures/collision-detect.tex}

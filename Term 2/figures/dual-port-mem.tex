@@ -1,0 +1,61 @@
+\begin{figure}[H]
+\begin{center}
+\begin{adjustbox}{width=\textwidth}
+    \begin{tikzpicture}
+        \draw[fill=gray!5] (0,0) -- (12,0) -- (12,-12) -- (0,-12) -- (0,0);
+        \draw[fill=red!10] (1,-1) -- (3,-1) -- (3,-3) -- (1,-3) -- (1,-1);
+            \draw[text width=2cm, text centered]  (2,-2) node[] {L Data I/O};
+        \draw[fill=blue!10] (9,-1) -- (11,-1) -- (11,-3) -- (9,-3) -- (9,-1);
+            \draw[text width=2cm, text centered]  (10,-2) node[] {R Data I/O};
+        \draw[fill=gray!20] (4,-4) -- (8,-4) -- (8,-8) -- (4,-8) -- (4,-4);
+            \draw[text width=5cm, text centered]  (6,-6) node[] {\large Dual Port Memory};
+        \draw[fill=red!10] (1,-4) -- (3,-4) -- (3,-8) -- (1,-8) -- (1,-4);
+            \draw[text width=2cm, text centered] (2,-6) node[] {L Addr. Decoder};
+        \draw[fill=blue!10] (9,-4) -- (11,-4) -- (11,-8) -- (9,-8) -- (9,-4);
+            \draw[text width=2cm, text centered] (10,-6) node[] {R Addr. Decoder};
+
+        \draw[fill=gray!20] (1,-9) -- (11,-9) -- (11,-11) -- (1,-11) -- (1,-9);
+            \draw [text width=10cm, text centered] (6,-10) node[] {\large Control Logic};
+       
+        \draw (14,-1) -- (16,-1) -- (16,-8) -- (14,-8) -- (14,-1);
+            \draw[text width=2cm, text centered] (15,-4.5) node[] {CPU or I/O Device \textbf{R}};
+
+        \draw (-4,-1) -- (-2,-1) -- (-2,-8) -- (-4,-8) -- (-4,-1);
+            \draw[text width=2cm, text centered] (-3,-4.5) node[] {CPU or I/O Device \textbf{L}};
+
+        % Draw Arrows
+        \draw[darrow] (2,-8) -- (2,-9);
+        \draw[darrow] (10,-8) -- (10,-9);
+
+        \draw[darrow] (3,-1.5) -| (5.5,-4);
+        \draw[darrow] (3,-2.5) -| (4.5,-4);
+
+        \draw[darrow] (9,-1.5) -| (6.5,-4);
+        \draw[darrow] (9,-2.5) -| (7.5,-4);
+
+        \draw[arrow] (9,-5) -- (8,-5);
+        \draw[arrow] (9,-7) -- (8,-7);
+        
+        \draw[arrow] (3,-5) -- (4,-5);
+        \draw[arrow] (3,-7) -- (4,-7);
+
+        \draw[darrow, line width=4pt] (14,-2) -- (11,-2) node[midway,above] {Data};
+        \draw[darrow, line width=4pt] (-2,-2) -- (1,-2) node[midway,above] {Data};
+
+        \draw[arrow, line width=4pt] (-2,-5) -- (1,-5) node[midway,above] {Addr.};
+        \draw[arrow, line width=4pt] (14,-5) -- (11,-5) node[midway,above] {Addr.};
+
+        \draw[arrow] (-2,-7) -- (1,-7) node[midway,above] {R/W};
+        \draw[arrow] (14,-7) -- (11,-7) node[midway,above] {R/W};
+
+        \draw[darrow, text width=2cm, text centered] (11,-10) -- (15,-10) node[below,midway] {Busy,
+            Interrupt, Semaphore} -- (15,-8);
+        \draw[darrow, text width=2cm, text centered] (1,-10) -- (-3,-10) node[below,midway] {Busy,
+            Interrupt, Semaphore} -- (-3,-8);
+
+    \end{tikzpicture}
+\end{adjustbox}
+\end{center}
+\caption{Dual Port/Shared Memory configuration}
+\label{fig:dual-port-mem}
+\end{figure}

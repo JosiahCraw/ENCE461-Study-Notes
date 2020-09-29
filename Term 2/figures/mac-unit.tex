@@ -1,0 +1,25 @@
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \draw (0,-1) node[boxes] (m0) {$x(n-k)$};
+        \draw (4,-1) node[boxes] (m1) {$b_k$};
+        \draw (-1,-2) -- (1,-2) -- (2,-3) -- (3,-2) -- (5,-2) -- (3,-4) -- (1,-4) --
+        (-1,-2);
+
+        \draw (2,-3.5) node[] {Multiplier};
+
+        \draw (2,-6) node[xwboxes] (acc) {Accumulator};
+
+        % Arrows
+        \draw[arrow] (m0.south) -- (0,-2);
+        \draw[arrow] (m1.south) -- (4,-2);
+
+        \draw[arrow] (2,-4) -- (acc.north);
+        \draw[arrow] (acc.south) -- (2,-8) node[below] {Output};
+        \draw (2,-7) -| (-3,-5);
+        \draw[arrow] (-3,-5) -| (-1,-5.5);
+    \end{tikzpicture}
+\end{center}
+\caption{DSP Multiply and Accumulate (MAC) Module}
+\label{fig:mac-unit}
+\end{figure}

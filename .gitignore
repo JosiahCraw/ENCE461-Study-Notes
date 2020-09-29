@@ -1,0 +1,7 @@
+*.pdf
+*.out
+*.latexmk
+*.fls
+*.log
+*.toc
+*.gz
